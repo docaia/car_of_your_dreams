@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "809066337198",
+    "firebase_url": "https://supercars-f877e.firebaseio.com",
+    "project_id": "supercars-f877e",
+    "storage_bucket": "supercars-f877e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809066337198:android:f1fadb5d8dba46fc856e3f",
+        "android_client_info": {
+          "package_name": "carofyourdreams.car_of_your_dreams"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809066337198-j5shr388q2g4am4l9cnvvb17ssm7brdo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL1ByDKQJinXhvCPvoKzspGA7WkZzgHeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809066337198-j5shr388q2g4am4l9cnvvb17ssm7brdo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
