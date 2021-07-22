@@ -7,6 +7,7 @@ import 'package:car_of_your_dreams/widgets/starButton.dart';
 import 'package:car_of_your_dreams/widgets/StarRating_toggle.dart';
 import 'package:car_of_your_dreams/Services/Firebase.dart';
 import '../widgets/Constants.dart';
+import 'package:car_of_your_dreams/Services/mySQL_setup.dart';
 
 
 class CarSelection extends StatelessWidget {
@@ -144,7 +145,7 @@ class CarSelection extends StatelessWidget {
                       child: FlatButton(
                         child: StarButton(starColor: carData.star2IsChecked
                             ? Colors.black
-                            : Color(0xFFFFF77D), starLabel: "2",),
+                            : Color(0xFFF5EDA1), starLabel: "2",),
                         onPressed: () {
                           ApplyRating(carData, 2);
                           carData.starStatusChange(carData.star2IsChecked);
@@ -155,7 +156,7 @@ class CarSelection extends StatelessWidget {
                       child: FlatButton(
                         child: StarButton(starColor: carData.star3IsChecked
                             ? Colors.black
-                            : Color(0xFFFFEE75), starLabel: "3",),
+                            : Color(0xFFF8E76A), starLabel: "3",),
                         onPressed: () {
                           ApplyRating(carData, 3);
                           carData.starStatusChange(carData.star3IsChecked);
@@ -186,19 +187,125 @@ class CarSelection extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            child: Container(
-                color: Colors.blueAccent,
-                child: Row(children: <Widget>[
-                  Text("Your Rating: $currentUserRating",
-                    style: TextStyle(fontSize: 12, color: Colors.white),),
-                  SizedBox(width: 5,),
-                  Text("Overall community: ${carData.communityRating}",
-                      style: TextStyle(fontSize: 12, color: Colors.white))
-                ],)
+          SizedBox(height: 10, child:Container(decoration: BoxDecoration(color: Colors.blueAccent),)),
+          Container(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            decoration: BoxDecoration(color: Colors.blueAccent),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                    flex: 2,
+                    child: Text(
+                      "How dependable is the car? Did you get any unexpected problems?",
+                      style: GoogleFonts.publicSans(
+                        textStyle: TextStyle(
+                            backgroundColor: Colors.blueAccent,
+                            color: Colors.white,
+                            fontSize: 20,
+                            decoration: TextDecoration.none
 
+                        ),
+                      ),
+                    )),
+              ],
             ),
           ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              color: Colors.blueAccent,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                      child: FlatButton(
+                        child: StarButton(starColor: carData.dep1IsChecked
+                            ? Colors.black
+                            : Color(0xFFFFFACD), starLabel: "1",),
+
+                        onPressed: () {
+                          ApplyRating(carData, 1);
+                          carData.starStatusChange(carData.star1IsChecked);
+                          carData.star1IsChecked = carData.myToggle.isChecked;
+                        },
+                      )),
+                  //
+                  Expanded(
+                      child: FlatButton(
+                        child: StarButton(starColor: carData.dep2IsChecked
+                            ? Colors.black
+                            : Color(0xFFF5EDA1), starLabel: "2",),
+                        onPressed: () {
+                          ApplyRating(carData, 2);
+                          carData.starStatusChange(carData.star2IsChecked);
+                          carData.star2IsChecked = carData.myToggle.isChecked;
+                        },
+                      )),
+                  Expanded(
+                      child: FlatButton(
+                        child: StarButton(starColor: carData.dep3IsChecked
+                            ? Colors.black
+                            : Color(0xFFF8E76A), starLabel: "3",),
+                        onPressed: () {
+                          ApplyRating(carData, 3);
+                          carData.starStatusChange(carData.star3IsChecked);
+                          carData.star3IsChecked = carData.myToggle.isChecked;
+                        },
+                      )),
+                  Expanded(
+                      child: FlatButton(
+                        child: StarButton(starColor: carData.dep4IsChecked
+                            ? Colors.black
+                            : Color(0xFFFFDF00), starLabel: "4",),
+                        onPressed: () {
+                          ApplyRating(carData, 4);
+                          carData.starStatusChange(carData.star4IsChecked);
+                          carData.star4IsChecked = carData.myToggle.isChecked;
+                        },
+                      )),
+                  Expanded(child: FlatButton(
+                    child: StarButton(starColor: carData.dep5IsChecked ? Colors
+                        .black : Color(0xFFFFFF00), starLabel: "5",),
+                    onPressed: () {
+                      ApplyRating(carData, 5);
+                      carData.starStatusChange(carData.star5IsChecked);
+                      carData.star5IsChecked = carData.myToggle.isChecked;
+                    },
+                  )),
+                ],
+              ),
+            ),
+          ),
+          Container(
+
+            decoration: BoxDecoration(color: Colors.blueAccent),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children:<Widget> [
+                TextButton(onPressed: (){Navigator.pushNamed(context, '5');},
+                    child: Text("Skip", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18)),)),
+                FlatButton(onPressed: (){Navigator.pushNamed(context, '5');},
+                    child: Text("Submit, Go Next", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),))
+              ],
+            ),
+          ),
+          // Expanded(
+          //   child: Container(
+          //       color: Colors.blueAccent,
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: <Widget>[
+          //         Text("Your Rating: $currentUserRating",
+          //           style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontSize: 13, decoration: TextDecoration.none)),),
+          //         SizedBox(width: 10,),
+          //         Text("Overall community: ${carData.communityRating}",
+          //           style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontSize: 13, decoration: TextDecoration.none)),)
+          //       ],)
+          //
+          //   ),
+          // ),
         ],
 
 
@@ -213,15 +320,23 @@ class CarSelection extends StatelessWidget {
       carData.falseAll();
 
     currentUserRating = rating;
-    db.createRecord(carData.currentCarManufacturer.data,
-        carData.myModel.data,
-        carData.myYear.data,
-        currentUserRating);
+      MySQL().extractData(carData.currentCarManufacturer.data,
+          carData.myModel.data,
+          carData.myYear.data,
+          currentUserRating);
+
+
+    //db.createRecord(carData.currentCarManufacturer.data,
+      //  carData.myModel.data,
+       // carData.myYear.data,
+       // currentUserRating);
+
+
     var presence = await db.Ispresent;
     if(presence==true){
-      carData.communityRating = db.currentRating.toStringAsFixed(2);
-    } else{
       carData.communityRating = await db.currentRating.toStringAsFixed(2);
+    } else{
+      carData.communityRating = currentUserRating.toString();
     }
 
   }
