@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:car_of_your_dreams/widgets/Constants.dart';
 class StarButton extends StatelessWidget {
-  StarButton({this.starColor, this.starSize=60, this.starLabel});
+  StarButton({required this.starColor, this.starSize=60, required this.starLabel});
   final Color starColor;
   final double starSize;
   final String starLabel;

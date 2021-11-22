@@ -15,13 +15,14 @@ class CarSelection extends StatelessWidget {
 
   StarRatingToggle mytoggle = StarRatingToggle();
   Db db = Db();
-  int currentUserRating;
-  int existingRating;
-  List currentModel=[];
-  String carModel;
-  String carMan;
+  late int currentUserRatingT;
+  late int currentUserRatingD;
+  late int existingRating;
+  List<Text> currentModel=[];
+  String? carModel;
+  String? carMan;
 
-  String yearOfMan;
+  String? yearOfMan;
   @override
   Widget build(BuildContext context) {
     List<Text> theModel = [];
@@ -135,7 +136,8 @@ class CarSelection extends StatelessWidget {
                             : Color(0xFFFFFACD), starLabel: "1",),
 
                         onPressed: () {
-                          ApplyRating(carData, 1);
+
+                          currentUserRatingT = 1;
                           carData.starStatusChange(carData.star1IsChecked);
                           carData.star1IsChecked = carData.myToggle.isChecked;
                         },
@@ -147,7 +149,8 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFF5EDA1), starLabel: "2",),
                         onPressed: () {
-                          ApplyRating(carData, 2);
+
+                          currentUserRatingT = 2;
                           carData.starStatusChange(carData.star2IsChecked);
                           carData.star2IsChecked = carData.myToggle.isChecked;
                         },
@@ -158,7 +161,8 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFF8E76A), starLabel: "3",),
                         onPressed: () {
-                          ApplyRating(carData, 3);
+
+                          currentUserRatingT = 3;
                           carData.starStatusChange(carData.star3IsChecked);
                           carData.star3IsChecked = carData.myToggle.isChecked;
                         },
@@ -169,7 +173,8 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFFFDF00), starLabel: "4",),
                         onPressed: () {
-                          ApplyRating(carData, 4);
+
+                          currentUserRatingT = 4;
                           carData.starStatusChange(carData.star4IsChecked);
                           carData.star4IsChecked = carData.myToggle.isChecked;
                         },
@@ -178,7 +183,8 @@ class CarSelection extends StatelessWidget {
                     child: StarButton(starColor: carData.star5IsChecked ? Colors
                         .black : Color(0xFFFFFF00), starLabel: "5",),
                     onPressed: () {
-                      ApplyRating(carData, 5);
+
+                      currentUserRatingT = 5;
                       carData.starStatusChange(carData.star5IsChecked);
                       carData.star5IsChecked = carData.myToggle.isChecked;
                     },
@@ -226,9 +232,10 @@ class CarSelection extends StatelessWidget {
                             : Color(0xFFFFFACD), starLabel: "1",),
 
                         onPressed: () {
-                          ApplyRating(carData, 1);
-                          carData.starStatusChange(carData.star1IsChecked);
-                          carData.star1IsChecked = carData.myToggle.isChecked;
+
+                          currentUserRatingD = 1;
+                          carData.starStatusChangeDep(carData.dep1IsChecked);
+                          carData.dep1IsChecked = carData.myToggleDependability.ratingToggleForDependability(carData.dep1IsChecked);
                         },
                       )),
                   //
@@ -238,9 +245,10 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFF5EDA1), starLabel: "2",),
                         onPressed: () {
-                          ApplyRating(carData, 2);
-                          carData.starStatusChange(carData.star2IsChecked);
-                          carData.star2IsChecked = carData.myToggle.isChecked;
+
+                          currentUserRatingD = 2;
+                          carData.starStatusChangeDep(carData.dep2IsChecked);
+                          carData.dep2IsChecked = carData.myToggleDependability.isChecked;
                         },
                       )),
                   Expanded(
@@ -249,9 +257,10 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFF8E76A), starLabel: "3",),
                         onPressed: () {
-                          ApplyRating(carData, 3);
-                          carData.starStatusChange(carData.star3IsChecked);
-                          carData.star3IsChecked = carData.myToggle.isChecked;
+
+                          currentUserRatingD = 3;
+                          carData.starStatusChangeDep(carData.dep3IsChecked);
+                          carData.dep3IsChecked = carData.myToggleDependability.isChecked;
                         },
                       )),
                   Expanded(
@@ -260,18 +269,20 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFFFDF00), starLabel: "4",),
                         onPressed: () {
-                          ApplyRating(carData, 4);
-                          carData.starStatusChange(carData.star4IsChecked);
-                          carData.star4IsChecked = carData.myToggle.isChecked;
+
+                          currentUserRatingD = 4;
+                          carData.starStatusChangeDep(carData.dep4IsChecked);
+                          carData.dep4IsChecked = carData.myToggleDependability.isChecked;
                         },
                       )),
                   Expanded(child: FlatButton(
                     child: StarButton(starColor: carData.dep5IsChecked ? Colors
                         .black : Color(0xFFFFFF00), starLabel: "5",),
                     onPressed: () {
-                      ApplyRating(carData, 5);
-                      carData.starStatusChange(carData.star5IsChecked);
-                      carData.star5IsChecked = carData.myToggle.isChecked;
+
+                      currentUserRatingD = 5;
+                      carData.starStatusChangeDep(carData.dep5IsChecked);
+                      carData.dep5IsChecked = carData.myToggleDependability.isChecked;
                     },
                   )),
                 ],
@@ -286,7 +297,9 @@ class CarSelection extends StatelessWidget {
               children:<Widget> [
                 TextButton(onPressed: (){Navigator.pushNamed(context, '5');},
                     child: Text("Skip", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18)),)),
-                FlatButton(onPressed: (){Navigator.pushNamed(context, '5');},
+                FlatButton(onPressed: (){
+                  ApplyRating(carData, currentUserRatingT, currentUserRatingD);
+                  Navigator.pushNamed(context, '5');},
                     child: Text("Submit, Go Next", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),))
               ],
             ),
@@ -316,14 +329,16 @@ class CarSelection extends StatelessWidget {
     );
   }
 
-  void ApplyRating(CarsProvider carData, int rating) async {
+  void ApplyRating(CarsProvider carData, int ratingT, int ratingD) async {
       carData.falseAll();
 
-    currentUserRating = rating;
-      MySQL().extractData(carData.currentCarManufacturer.data,
-          carData.myModel.data,
-          carData.myYear.data,
-          currentUserRating);
+    currentUserRatingT = ratingT;
+      currentUserRatingD = ratingD;
+      MySQL().extractData(carData.currentCarManufacturer.data!,
+          carData.myModel.data!,
+          carData.myYear.data!,
+          currentUserRatingT,
+          currentUserRatingD);
 
 
     //db.createRecord(carData.currentCarManufacturer.data,
@@ -336,11 +351,12 @@ class CarSelection extends StatelessWidget {
     if(presence==true){
       carData.communityRating = await db.currentRating.toStringAsFixed(2);
     } else{
-      carData.communityRating = currentUserRating.toString();
+      carData.communityRating = currentUserRatingT.toString();
     }
 
   }
 }
+
 
 
 

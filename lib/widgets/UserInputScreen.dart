@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:car_of_your_dreams/Services/change_notifier.dart';
 import'package:car_of_your_dreams/widgets/Constants.dart';
 import 'package:car_of_your_dreams/Services/Firebase.dart';
+import 'package:car_of_your_dreams/Services/mySQL_setup.dart';
 
 class UserInputScreen extends StatelessWidget {
   @override
-  UserInputScreen({this.issueDescribe, this.toScreenNum, this.rightButtonText, this.goodOrBadList, this.selectedIssue});
+  UserInputScreen({required this.issueDescribe, required this.toScreenNum, required this.rightButtonText, required this.goodOrBadList, required this.selectedIssue});
   final String issueDescribe;
   final String toScreenNum;
   final String rightButtonText;
@@ -57,8 +58,8 @@ Expanded(
     icon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 35,),
 
     value: Provider.of<CarsProvider>(context, listen: false).selectedIssueBad,
-    onChanged: (String newValue) {
-    Provider.of<CarsProvider>(context,listen: false).setSelectedItem(newValue);
+    onChanged: (String? newValue) {
+    Provider.of<CarsProvider>(context,listen: false).setSelectedItem(newValue!);
     },
     items: goodOrBadList
         .map<DropdownMenuItem<String>>((String value) {
@@ -98,8 +99,13 @@ Expanded(
                         FlatButton(onPressed: (){},
                             child: Text("Skip", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white)),)),
                         FlatButton(onPressed: ()async{Navigator.pushNamed(context, toScreenNum);
-                        print("${Provider.of<CarsProvider>(context, listen: false).selectedIssueBad}");
-                        db.chosenProblem(context);
+                        print("${Provider.of<CarsProvider>(context, listen: false).selectedIssueBad!}");
+                       // db.chosenProblem(context);
+                        MySQL().carIssuesInSQL(
+                            Provider.of<CarsProvider>(context, listen: false).currentCarManufacturer.data!,
+                            Provider.of<CarsProvider>(context, listen: false).myModel.data!,
+                            Provider.of<CarsProvider>(context, listen: false).myYear.data!,
+                            Provider.of<CarsProvider>(context, listen: false).selectedIssueBad!);
 
                         },
                             child: Text(rightButtonText, style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),))

@@ -4,4 +4,8 @@ class StarRatingToggle{
   void ratingToggle(){
     isChecked = !isChecked;
 }
+bool ratingToggleForDependability(depIsChecked){
+    depIsChecked = !depIsChecked;
+    return depIsChecked;
+}
 }

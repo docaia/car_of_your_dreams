@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
-  String em;
-  String pa;
-  String name;
+  late String em;
+  late String pa;
+  late String name;
   Widget build(BuildContext context) {
     return Material(
       child: Container(

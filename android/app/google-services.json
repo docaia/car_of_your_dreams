@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "809066337198-b3hjt79t6efg6tcaoo5q9e026e87tnv3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "supercars.app",
+            "certificate_hash": "b6b93cc0be01f851ebfd14ebc6b2354d3d5015f4"
+          }
+        },
+        {
           "client_id": "809066337198-j5shr388q2g4am4l9cnvvb17ssm7brdo.apps.googleusercontent.com",
           "client_type": 3
         }

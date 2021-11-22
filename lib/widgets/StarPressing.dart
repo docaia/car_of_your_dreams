@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:car_of_your_dreams/Screens/Car_Selection_Screen.dart';
 
 class StarPressing{
-  StarPressing({this.star, this.falseForAll,this.changeStatus});
+  StarPressing({required this.star, required this.falseForAll,required this.changeStatus});
   bool star;
   Function falseForAll;
   Function changeStatus;

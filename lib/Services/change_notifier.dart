@@ -4,17 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:car_of_your_dreams/widgets/Constants.dart';
 import 'package:car_of_your_dreams/Screens/Car_Selection_Screen.dart';
 import 'package:car_of_your_dreams/widgets/bestCars.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:convert/convert.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:car_of_your_dreams/Services/mySQL_setup.dart';
 
 class CarsProvider extends ChangeNotifier {
   //put here the main variables and the car list
 String communityRating = "Choose";
-String bestCars;
-List<BestCars> bestCarsList=[BestCars('', '', '', ''),
-  BestCars('', '', '', ''),
-  BestCars('', '', '', ''),
-  BestCars('', '', '', ''),
-  BestCars('', '', '', ''),
+String? bestCars;
+String mech ="";
+String? userEmail;
+String? userPassword;
+String name="user";
+String mechPhone="";
+String mechLocation="";
+
+List<BestCars> bestCarsList=[BestCars(Man: '', Model: '',year: '', Rate:''),
+  BestCars(Man: '', Model: '',year: '', Rate:''),
+  BestCars(Man: '', Model: '',year: '', Rate:''),
+  BestCars(Man: '', Model: '',year: '', Rate:''),
+  BestCars(Man: '', Model: '',year: '', Rate:''),
 ];
 List<String> goodCars = [];
   ////Read excel sheet!!///
@@ -133,6 +142,7 @@ List<String> goodCars = [];
   Text currentCarManufacturer = Text('Toyota');
   Text myYear = Text('2005');
   Text myModel = Text('Camry');
+  String? userFeedback;
   List<Text> models = [ Text('Camry', style: kStyle,),
     Text('Corolla', style: kStyle,),
     Text('Yaris', style: kStyle,),
@@ -142,6 +152,14 @@ List<String> goodCars = [];
   bool star3IsChecked = false;
   bool star4IsChecked = false;
   bool star5IsChecked = false;
+
+bool dep1IsChecked = false;
+bool dep2IsChecked = false;
+bool dep3IsChecked = false;
+bool dep4IsChecked = false;
+bool dep5IsChecked = false;
+
+bool criteriaVisibility = false;
 
   List<Text> manufacturers = [
     Text('Toyota', style: kStyle,),
@@ -157,6 +175,8 @@ List<String> goodCars = [];
     Text('Polo', style: kStyle,),
     Text('Pointer', style: kStyle,),
     Text('Jetta', style: kStyle,),
+    Text('Tiguan', style: kStyle,),
+    Text('Touareg', style: kStyle,),
   ];
   List<Text> toyotaModels = [
     Text('Camry', style: kStyle,),
@@ -167,6 +187,7 @@ List<String> goodCars = [];
   List<Text> NissanModels = [
     Text('Sunny', style: kStyle,),
     Text('Sentra', style: kStyle,),
+    Text('Juke', style: kStyle,),
     Text('Qashqay', style: kStyle,),
     Text('Patrol', style: kStyle,),
   ];
@@ -200,12 +221,18 @@ List<String> goodCars = [];
   }
 
   StarRatingToggle myToggle = StarRatingToggle();
+StarRatingToggle myToggleDependability = StarRatingToggle();
 
   void starStatusChange(bool isChecked1) {
     myToggle.ratingToggle();
     isChecked1 = myToggle.isChecked;
     notifyListeners();
   }
+void starStatusChangeDep(bool isChecked1) {
+  myToggleDependability.ratingToggle();
+  isChecked1 = myToggleDependability.isChecked;
+  notifyListeners();
+}
 
   void falseAll() {
     star1IsChecked = false;
@@ -216,18 +243,77 @@ List<String> goodCars = [];
     myToggle.isChecked = false;
   }
 int i = -1;
-  Future getBest(QuerySnapshot gg, BuildContext context) async {
-  await gg.docs.forEach(
-          (elem)
-      {print(elem.data());
-      i = i+1;
+  Future getBest(List<dynamic> gg, BuildContext context) async {
+  gg = bestCarsList;
+  criteriaVisibility =true;
+    // await gg(elem){};
+  // map(
+  //         (elem)
+  //     {print(elem.data());
+  //     i = i+1;
+  //    // List<BestCars> BC = List<BestCars>.from(gg.map((model)=> BestCars.fromJson(model)));
+  //     bestCarsList[i]=(BestCars(elem['0'], elem['1'], elem['2'], elem['3'].toStringAsFixed(2)));
+  //
+  //
+  //     });
+   notifyListeners();
+}
+List<String> problemsList =[
+  'Noisy',
+  'Brakes are weak',
+  'Heat issues',
+  'Not stable at high speeds',
+  'Too slow acceleration',
+  'Too close to ground',
+  'Tight seating',
+  'Small storage space',
+  'High fuel consumption',
+  'Other, please specify',
+];
+  List<String> advantagesList =[
+    'No unexpected problems',
+    'Stable at high speeds',
+    'Good acceleration',
+    'Big storage space',
+    'Comfortable and large seats',
+    'Efficient fuel consumption',
+    'Other, please specify',
+  ];
 
-      bestCarsList[i]=(BestCars(elem['title'], elem['Model'], elem['Year'], elem['Rating_Overall'].toStringAsFixed(2)));
+  String selectedIssueGood = 'No unexpected problems';
+  String selectedIssueBad = 'Noisy';
+//List<String> get items => problemsList;
+String? get selected => selectedIssueBad;
 
+void setSelectedItem(String s) {
 
-      });
+  selectedIssueBad = s;
   notifyListeners();
 }
+
+  void setSelectedItemGood(String s) {
+
+    selectedIssueGood = s;
+    notifyListeners();
+  }
+  late int tightSeating;
+  late int Noisy;
+
+
+  showToast() {
+    Fluttertoast.showToast(
+        msg: 'email or password are not registered',
+        toastLength: Toast.LENGTH_LONG,
+        fontSize: 25,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Colors.redAccent,
+        textColor: Colors.white,
+        webBgColor: "linear-gradient(to right, #b00c00,#b00c00)",
+      webPosition: "center",
+
+    );
+  }
 }
 
 

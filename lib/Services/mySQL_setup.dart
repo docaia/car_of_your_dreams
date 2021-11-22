@@ -1,8 +1,6 @@
-import 'package:provider/provider.dart';
-import 'package:car_of_your_dreams/Services/change_notifier.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http; // add the http plugin in pubspec.yaml file.
-import 'package:car_of_your_dreams/widgets/caro.dart';
+import 'package:car_of_your_dreams/widgets/bestCars.dart';
 
 
 class MySQL{
@@ -13,7 +11,7 @@ class MySQL{
       // password: '79789Vhs#',
       // db: 'crazycars'
   // );
-  void extractData(String Make, String model, String year, int rate) async{
+  void extractData(String Make, String model, String year, int rate_tawkeel, int rate_depend) async{
     //var conn = await MySqlConnection.connect(settings);
 
    // var checkRecord = await conn.query
@@ -22,12 +20,17 @@ class MySQL{
  // await conn.query('Insert into crazycars.cars_egypt(Manufacturer, Model, Year, Rating_Tawkeel) values(?,?,?,?)', [Make, model, year, rate]);
 var url = 'http://carstreasure.000webhostapp.com/get.php';
 var url2 = 'http://carstreasure.000webhostapp.com/updateSQL.php';
-String ratz = rate.toString();
+String ratz = rate_tawkeel.toString();
+String raty = rate_depend.toString();
+var ratingAll = (rate_tawkeel + rate_depend)/2;
+var ratx = ratingAll.toString();
 var dataToBeSent = {
   "Manufacturer": Make,
   "Model": model,
   "Year": year,
-  "Rate": ratz,
+  "Rate_tawkeel": ratz,
+  "Rate_dep": raty,
+  "RatingAll": ratx
 };
 
 http.Response response = await http.post(Uri.parse(url), body: dataToBeSent);
@@ -36,15 +39,27 @@ print(data);
 
 if(data['Manufacturer']==Make){
   print("found it in database!");
-String existingRateString = data['Rating_all'];
- dynamic existingRate=double.parse(existingRateString);
-  final updatedRate = ((existingRate * 99) + rate) / 100; //Take current rating, average with last 100 ratings..
+String existingRateTawkeel = data['Rating_Agency'];
+  String existingRateDependability = data['Rating_Dep'];
+
+ dynamic existingRateT=double.parse(existingRateTawkeel);
+  final updatedRate = ((existingRateT * 99) + rate_tawkeel) / 100; //Take current rating, average with last 100 ratings..
   var updatedRateString=updatedRate.toStringAsFixed(2);
+
+  dynamic existingRateD=double.parse(existingRateDependability);
+  final updatedRate2 = ((existingRateD * 99) + rate_depend) / 100; //Take current rating, average with last 100 ratings..
+  var updatedRateString2=updatedRate2.toStringAsFixed(2);
+
+  final updatedAverageNum = (updatedRate + updatedRate2)/2 ;
+  var updatedAverage = updatedAverageNum.toStringAsFixed(2);
+
   Map rateUpdate = {
     "Manufacturer": Make,
     "Model": model,
     "Year": year,
-    "updatedRateFromFlutter": updatedRateString
+    "updatedRateFromFlutter": updatedRateString,
+    "updatedRateFromFlutter2": updatedRateString2,
+    "updatedAverage": updatedAverage
   };
   http.Response updatedResponse = await http.post(Uri.parse(url2), body: rateUpdate);
 
@@ -108,4 +123,72 @@ String existingRateString = data['Rating_all'];
       print(credentials.statusCode);
     }
   }
+  Future<dynamic> extractCarDetails(String? Make) async {
+    var url = 'http://carstreasure.000webhostapp.com/getCarDetails.php';
+
+    var dataToBeSent = {
+      "Manufacturer": Make,
+    };
+
+    http.Response response = await http.post(
+        Uri.parse(url), body: dataToBeSent);
+    var data = jsonDecode(response.body);
+
+
+
+    //if(data['Manufacturer']==Make){
+    //print("found it in database!");
+    return data;
+  }
+
+  void carIssuesInSQL(String Make, String model, String year, String selectedIssue) async {
+    var url = 'http://carstreasure.000webhostapp.com/carIssues.php';
+
+    var dataToBeSent = {
+      "Manufacturer": Make,
+      "Model": model,
+      "Year": year,
+      "Issue": selectedIssue,
+    };
+
+    await http.post(Uri.parse(url), body: dataToBeSent);
+  }
+
+  Future<List<BestCars>> selectBestCars() async{
+    var url = 'http://carstreasure.000webhostapp.com/selectBestCars.php';
+
+    http.Response response = await http.post(
+        Uri.parse(url), body: null);
+
+    if (response.statusCode == 200) {
+      List<dynamic> l = json.decode(response.body);
+      print(l);
+      List<BestCars> bestCarz = List<BestCars>.from(l.map((model)=> BestCars.fromJson(model)));
+    return bestCarz;//BestCars.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load the best cars, there seems to be an issue connecting to the server');
+    }
+      }
+  Future<dynamic> extractBestWorst(String? Make, String? Model, String? Year) async {
+    var url = 'http://carstreasure.000webhostapp.com/getCarDetailsBestWorst.php';
+
+    var dataToBeSent = {
+      "Manufacturer": Make,
+      "Model": Model,
+      "Year": Year
+    };
+
+    http.Response response = await http.post(
+        Uri.parse(url), body: dataToBeSent);
+    var data = jsonDecode(response.body);
+
+
+
+    //if(data['Manufacturer']==Make){
+    //print("found it in database!");
+    return data;
+  }
+
 }
