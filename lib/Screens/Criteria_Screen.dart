@@ -129,7 +129,89 @@ Provider.of<CarsProvider>(context, listen: false).bestCarsList = await MySQL().s
 
     },
     ),
-    )
+    ),
+              Card(
+                shadowColor: Colors.black26,
+                color: Colors.lightGreenAccent,
+                elevation: 100,
+                clipBehavior: Clip.hardEdge,
+                child: ListTile(
+                  minLeadingWidth: 25,
+                  onTap: () async{
+                    List bestAgencies = await MySQL().selectBestAgencies();
+                    Provider.of<CarsProvider>(context, listen: false).bestAgenciesList = await MySQL().selectBestAgencies();
+                    print(bestAgencies[0].Man);
+
+
+                    await Provider.of<CarsProvider>(context, listen:false).getBestAg(bestAgencies, context);
+
+//print(dd);
+                  },
+
+                  leading: CircleAvatar(child: Icon(Icons.apartment_outlined)),
+                  title: Text('Choose the best car agencies'),
+                ),
+              ),
+              Flexible(
+
+                child: FutureBuilder(
+
+                  builder: (context, projectSnap) {
+                    if (projectSnap.connectionState == ConnectionState.none &&
+                        projectSnap.hasData == null) {
+                      //print('project snapshot data is: ${projectSnap.data}');
+                      return Container();
+                    }
+                    return Visibility(
+                      visible: Provider.of<CarsProvider>(context, listen: true).criteriaVisibilityAgencies,
+                      child: ListView.builder(
+
+                        padding: const EdgeInsets.all(8),
+
+                        itemCount: 5,
+
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+
+                              height: 50,
+
+
+                              child: RichText(
+                                  text: TextSpan(
+                                      text: ' ${Provider
+                                          .of<CarsProvider>(context, listen: true)
+                                          .bestAgenciesList[index].Man}',
+                                      style: GoogleFonts.eastSeaDokdo(textStyle: TextStyle(
+                                          fontSize: 30,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500)),
+                                      children: <TextSpan>[
+                                        TextSpan(text: '  ${Provider
+                                            .of<CarsProvider>(context, listen: false)
+                                            .bestAgenciesList[index].Agency}',
+                                          style: GoogleFonts.ubuntu(textStyle: TextStyle(
+                                              fontSize: 25,
+                                              color: Colors.white70,
+                                              fontWeight: FontWeight.w400)),),
+
+                                        TextSpan(text: ' Rating:${Provider
+                                            .of<CarsProvider>(context, listen: false)
+                                            .bestAgenciesList[index].Rate}',
+                                          style: GoogleFonts.ubuntu(textStyle: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.redAccent,
+                                              fontWeight: FontWeight.w400)),)
+                                      ]
+                                  )
+                              )
+                          );
+                        },
+                      ),
+                    );
+
+                  },
+                ),
+              ),
               //
                           ],
          )

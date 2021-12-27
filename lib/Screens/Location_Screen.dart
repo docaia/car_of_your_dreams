@@ -63,19 +63,32 @@ class _CarDropDownState extends State<CarDropDown> {
   String? agencyWebSite;
   String? agencyPhone;
   String? agencyRating;
+  String? maintenanceCost;
+  String? carRating;
   String? firstGood;
   String? secondGood;
   String? thirdGood;
   String? firstBad;
   String? secondBad;
   String? thirdBad;
-
+  String? firstMechanicName;
+  String? firstMechanicPhone;
+  String? firstMechanicLocation;
+  String? secondMechanicName;
+  String? secondMechanicPhone;
+  String? secondMechanicLocation;
+  String? thirdMechanicName;
+  String? thirdMechanicPhone;
+  String? thirdMechanicLocation;
+  late List<GoodAndBad> theGood;
+  late List<GoodAndBad> theBad;
   late List<Manufacturers> cars;
+  dynamic mechss;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    cars =[Manufacturers('Toyota', mToyota),Manufacturers('JEEP', mJEEP), Manufacturers('KIA', mKIA), Manufacturers('FIAT', mFIAT), Manufacturers('Hyundai', mHyundai), Manufacturers('Mercedes', mMercedes),Manufacturers('BMW', mBMW), Manufacturers('SEAT', mSEAT), Manufacturers('VolksWagen', mVolksWagen)];
+    cars =[Manufacturers('Toyota', mToyota),Manufacturers('JEEP', mJEEP), Manufacturers('KIA', mKIA), Manufacturers('FIAT', mFIAT), Manufacturers('Hyundai', mHyundai), Manufacturers('Mercedes', mMercedes),Manufacturers('BMW', mBMW), Manufacturers('SEAT', mSEAT), Manufacturers('VolksWagen', mVolksWagen), Manufacturers('Peugeot', mPeugeot), Manufacturers('Nissan', mNissan),];
   }
   @override
 
@@ -99,6 +112,7 @@ class _CarDropDownState extends State<CarDropDown> {
                     dropdownModel = null;
                     modelsforManu= selectedManu?.models;
                     isVisible = false;
+                    mechss = null;
                   });
                 },
                 items: cars.map((Manufacturers item){
@@ -123,6 +137,7 @@ class _CarDropDownState extends State<CarDropDown> {
                   setState(() {
                     dropdownModel = newValue;
                     isVisible = false;
+                    mechss = null;
                   });
                 },
                 items: modelsforManu?.map((CarModel item){
@@ -145,7 +160,8 @@ class _CarDropDownState extends State<CarDropDown> {
                 onChanged: (String? newValue) {
                   setState(() {
                     dropdownYear = newValue;
-
+                    isVisible = false;
+                    mechss = null;
                   });
                 },
                 items: years.map((String item){
@@ -165,29 +181,49 @@ class _CarDropDownState extends State<CarDropDown> {
           var carFetchedData= await MySQL().extractCarDetails(selectedManu?.name);
           var carBest = await MySQL().extractBestWorst(selectedManu?.name, dropdownModel.name, dropdownYear);
           print(carBest);
-          List<GoodAndBad> theGood=[
-            GoodAndBad('Good dependability, no unexpected problems', int.parse(carBest['No_Unexpected_problems']) ),
-            GoodAndBad('Stable at high speeds', int.parse(carBest['Stable_at_high_speeds']) ),
-            GoodAndBad('Good acceleration', int.parse(carBest['Good_acceleration']) ),
-            GoodAndBad('Big storage spaces', int.parse(carBest['Big_storage_space']) ),
-            GoodAndBad('Comfortable and large seats', int.parse(carBest['Comfortable_and_large_seats']) ),
-            GoodAndBad('Efficient fuel consumption', int.parse(carBest['Efficient_consumption']) ),
-          ];
-          theGood.sort((b,a)=>a.score!.compareTo(b.score!));
+          if(carBest=="no data, something went wrong"){
+            print("only updating agency details");
+          } else {
+             theGood = [
+              GoodAndBad('Good dependability, no unexpected problems',
+                  int.parse(carBest['No_Unexpected_problems'])),
+              GoodAndBad('Stable at high speeds',
+                  int.parse(carBest['Stable_at_high_speeds'])),
+              GoodAndBad(
+                  'Good acceleration', int.parse(carBest['Good_acceleration'])),
+              GoodAndBad('Big storage spaces',
+                  int.parse(carBest['Big_storage_space'])),
+              GoodAndBad('Comfortable and large seats',
+                  int.parse(carBest['Comfortable_and_large_seats'])),
+              GoodAndBad('Efficient fuel consumption',
+                  int.parse(carBest['Efficient_consumption'])),
+            ];
+            theGood.sort((b, a) => a.score!.compareTo(b.score!));
 
-          List<GoodAndBad> theBad =[
-            GoodAndBad('Noisy, not good isolation', int.parse(carBest['Noisy']) ),
-            GoodAndBad('Weak breaks', int.parse(carBest['Brakes_are_Weak']) ),
-            GoodAndBad('Not good cooling, heats up', int.parse(carBest['Heat_Issues']) ),
-            GoodAndBad('Not stable at high speeds', int.parse(carBest['Not_stable_at_high_speeds']) ),
-            GoodAndBad('Slow acceleration and some lag in shifts', int.parse(carBest['Too_slow_acceleration']) ),
-            GoodAndBad('Too close to the ground', int.parse(carBest['Too_close_to_ground']) ),
-            GoodAndBad('Tight, uncomfortable seats', int.parse(carBest['Tight_seats']) ),
-            GoodAndBad('Small storage spaces', int.parse(carBest['Small_storage_space']) ),
-            GoodAndBad('High fuel consumption', int.parse(carBest['High_Fuel_consumption']) ),
-          ];
+            theBad = [
+              GoodAndBad(
+                  'Noisy, not good isolation', int.parse(carBest['Noisy'])),
+              GoodAndBad('Weak breaks', int.parse(carBest['Brakes_are_Weak'])),
+              GoodAndBad('Not good cooling, heats up',
+                  int.parse(carBest['Heat_Issues'])),
+              GoodAndBad('Not stable at high speeds',
+                  int.parse(carBest['Not_stable_at_high_speeds'])),
+              GoodAndBad('Slow acceleration and some lag in shifts',
+                  int.parse(carBest['Too_slow_acceleration'])),
+              GoodAndBad('Too close to the ground',
+                  int.parse(carBest['Too_close_to_ground'])),
+              GoodAndBad('Tight, uncomfortable seats',
+                  int.parse(carBest['Tight_seats'])),
+              GoodAndBad('Small storage spaces',
+                  int.parse(carBest['Small_storage_space'])),
+              GoodAndBad('High fuel consumption',
+                  int.parse(carBest['High_Fuel_consumption'])),
+            ];
 
-          theBad.sort((b,a)=>a.score!.compareTo(b.score!));
+            theBad.sort((b, a) => a.score!.compareTo(b.score!));
+          };
+ mechss = await MySQL().getMechanicsForMyCar(selectedManu?.name, dropdownModel.name, dropdownYear);
+print(mechss);//[0]['location']);
 
           setState(() {
             isVisible = true;
@@ -195,19 +231,48 @@ class _CarDropDownState extends State<CarDropDown> {
             agencyWebSite = carFetchedData['Site'];
             agencyPhone = carFetchedData['Phone'];
             agencyRating = carFetchedData['Agency_Rating'];
-            firstGood = theGood[0].name;
-            secondGood = theGood[1].name;
-            thirdGood = theGood[2].name;
-            firstBad = theBad[0].name;
-            secondBad = theBad[1].name;
-            thirdBad = theBad[2].name;
+            maintenanceCost = carBest== "no data, something went wrong"? 'no data yet': carBest['HundredK'];
+            carRating = carBest== "no data, something went wrong"? 'not rated yet': carBest['Rating_all'];
+            if(carBest =="no data, something went wrong"){
+              firstGood = "nothing yet";
+              secondGood = "nothing yet";
+              thirdGood = "nothing yet";
+              firstBad = "nothing yet";
+              secondBad = "nothing yet";
+              thirdBad = "nothing yet";
+            } else {
+              firstGood = theGood[0].name;
+              secondGood = theGood[1].name;
+              thirdGood = theGood[2].name;
+              firstBad = theBad[0].name;
+              secondBad = theBad[1].name;
+              thirdBad = theBad[2].name;
+            };
+            if(mechss!="no mechanics aslan") {
+              firstMechanicName = mechss[0]['mechanic'];
+              firstMechanicPhone = mechss[0]['phone'];
+              firstMechanicLocation = mechss[0]['location'];
+            }
+             if(mechss is List && mechss.asMap().containsKey(1)){
+                secondMechanicName = mechss[1]['mechanic'];
+                secondMechanicPhone = mechss[1]['phone'];;
+                secondMechanicLocation = mechss[1]['location'];
+            }
+            if(mechss=="no mechanics aslan"){
+              firstMechanicName = "";
+              firstMechanicPhone = "";
+              firstMechanicLocation ="";
+              secondMechanicName = "";
+              secondMechanicPhone = "";
+              secondMechanicLocation = "";
+            };
+
           });
 
         },
           child: Text('Tell me all about this car!'),
         ),
-        //TODO 1: build a container for the information
-        //TODO 2: Go to the database and grab the information for the selected car
+
         Visibility(
           visible: isVisible,
           child: Container(
@@ -234,13 +299,13 @@ RichText(text: TextSpan(text: 'Agency: ', style: GoogleFonts.lato(textStyle:Text
   ])),
   RichText(text: TextSpan(text: 'Agency Rating:', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.white, fontWeight:FontWeight.w500 ) ),
       children:<TextSpan>[
-          TextSpan(text: agencyRating, style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.purple, fontWeight:FontWeight.w500 ) ))
+          TextSpan(text: '$agencyRating /5', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.purple, fontWeight:FontWeight.w500 ) ))
       ])
   ),
 
   RichText(text: TextSpan(text: 'Car Rating:', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.white, fontWeight:FontWeight.w500 ) ),
       children:<TextSpan>[
-          TextSpan(text:' 4', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.purple, fontWeight:FontWeight.w500 ) ))
+          TextSpan(text:'$carRating /5', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.purple, fontWeight:FontWeight.w500 ) ))
       ])
   ),
 
@@ -258,18 +323,29 @@ RichText(text: TextSpan(text: 'Agency: ', style: GoogleFonts.lato(textStyle:Text
   Text('    3- $thirdBad', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 23, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
   RichText(text: TextSpan(text: 'Maintenance cost 0-100,000Km:', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.white, fontWeight:FontWeight.w500 ) ),
       children:<TextSpan>[
-          TextSpan(text:' 58,000 EGP', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.purple, fontWeight:FontWeight.w500 ) ))
+          TextSpan(text:' $maintenanceCost EGP', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.purple, fontWeight:FontWeight.w500 ) ))
       ])
   ),
+  SizedBox(height: 10,),
   RichText(text: TextSpan(text: 'Best Mechanics for the car:', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.white, fontWeight:FontWeight.w500 ) ),
   ),),
-  RichText(text: TextSpan(text: 'Name:', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.white, fontWeight:FontWeight.w500 ) ),
+  RichText(text: TextSpan(text: 'Name:', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 27, color: Colors.white, fontWeight:FontWeight.w500 ) ),
   children:<TextSpan>[
-  TextSpan(text:' Fathy Tito', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
-  TextSpan(text:' Rating', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.white, fontWeight:FontWeight.w500 ) )),
-    TextSpan(text:' 4.5', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 30, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
-
+  TextSpan(text:' $firstMechanicName', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 23, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
+  TextSpan(text:' Phone', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 27, color: Colors.white, fontWeight:FontWeight.w500 ) )),
+    TextSpan(text:' $firstMechanicPhone', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 23, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
+    TextSpan(text:' Location', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 27, color: Colors.white, fontWeight:FontWeight.w500 ) )),
+    TextSpan(text:' $firstMechanicLocation', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 23, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
   ]),
+  ),
+  RichText(text: TextSpan(text: 'Name:', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 27, color: Colors.white, fontWeight:FontWeight.w500 ) ),
+      children:<TextSpan>[
+        TextSpan(text:' $secondMechanicName', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 23, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
+        TextSpan(text:' Phone', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 27, color: Colors.white, fontWeight:FontWeight.w500 ) )),
+        TextSpan(text:' $secondMechanicPhone', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 23, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
+        TextSpan(text:' Location', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 27, color: Colors.white, fontWeight:FontWeight.w500 ) )),
+        TextSpan(text:' $secondMechanicLocation', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 23, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
+      ]),
   ),
 ],
 );

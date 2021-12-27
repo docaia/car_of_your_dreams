@@ -91,9 +91,9 @@ print(Provider.of<CarsProvider> (context, listen: false).mech);
 
   Navigator.pushNamed(context, toScreenNum!);
   var mechSend = await MySQL().mechanicInfo(
-      mechanicName!,
+      mechanicName!.toUpperCase(),
       mechanicPhone!,
-      mechanicLocation!,
+      mechanicLocation!.toUpperCase(),
       Provider
           .of<CarsProvider>(context, listen: false)
           .currentCarManufacturer

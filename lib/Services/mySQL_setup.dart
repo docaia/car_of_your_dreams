@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http; // add the http plugin in pubspec.yaml file.
 import 'package:car_of_your_dreams/widgets/bestCars.dart';
+import 'package:car_of_your_dreams/widgets/bestAgencies.dart';
 
 
 class MySQL{
@@ -18,8 +19,8 @@ class MySQL{
     //  ('SELECT * FROM crazycars.cars_egypt WHERE Manufacturer=? AND Model =? AND Year =?', [Make, model, year]);
 //if(checkRecord.isEmpty ==true){
  // await conn.query('Insert into crazycars.cars_egypt(Manufacturer, Model, Year, Rating_Tawkeel) values(?,?,?,?)', [Make, model, year, rate]);
-var url = 'http://carstreasure.000webhostapp.com/get.php';
-var url2 = 'http://carstreasure.000webhostapp.com/updateSQL.php';
+var url = 'https://carkenz.com/get.php';
+var url2 = 'https://carkenz.com/updateSQL.php';
 String ratz = rate_tawkeel.toString();
 String raty = rate_depend.toString();
 var ratingAll = (rate_tawkeel + rate_depend)/2;
@@ -70,7 +71,7 @@ String existingRateTawkeel = data['Rating_Agency'];
   }
 
   Future<dynamic> sendResponse(String email, String password) async {
-    var url = 'http://carstreasure.000webhostapp.com/signin.php';
+    var url = 'https://carkenz.com/signin.php';//'http://carstreasure.000webhostapp.com/signin.php';
     var data = {
       "email": "$email",
       "password": "$password"
@@ -89,7 +90,7 @@ String existingRateTawkeel = data['Rating_Agency'];
   }
 // website password is ohroCy4gOVhqQNbLHE4Y
   Future<dynamic> signUp(String name, String email, String password) async {
-    var url = 'http://carstreasure.000webhostapp.com/signup.php';
+    var url = 'https://carkenz.com/signup.php';
     var data = {
       "name": "$name",
       "email": "$email",
@@ -109,7 +110,7 @@ String existingRateTawkeel = data['Rating_Agency'];
       "Model": model,
       "Year": year,
     };
-    var mechUrl ='http://carstreasure.000webhostapp.com/mechanic.php';
+    var mechUrl ='https://carkenz.com/mechanic.php';
     var mechanicInsert = postRequest(mechUrl, mechInfo);
     return mechanicInsert;
   }
@@ -124,7 +125,7 @@ String existingRateTawkeel = data['Rating_Agency'];
     }
   }
   Future<dynamic> extractCarDetails(String? Make) async {
-    var url = 'http://carstreasure.000webhostapp.com/getCarDetails.php';
+    var url = 'https://carkenz.com/getCarDetails.php';
 
     var dataToBeSent = {
       "Manufacturer": Make,
@@ -142,7 +143,7 @@ String existingRateTawkeel = data['Rating_Agency'];
   }
 
   void carIssuesInSQL(String Make, String model, String year, String selectedIssue) async {
-    var url = 'http://carstreasure.000webhostapp.com/carIssues.php';
+    var url = 'https://carkenz.com/carIssues.php';
 
     var dataToBeSent = {
       "Manufacturer": Make,
@@ -155,7 +156,7 @@ String existingRateTawkeel = data['Rating_Agency'];
   }
 
   Future<List<BestCars>> selectBestCars() async{
-    var url = 'http://carstreasure.000webhostapp.com/selectBestCars.php';
+    var url = 'https://carkenz.com/selectBestCars.php';
 
     http.Response response = await http.post(
         Uri.parse(url), body: null);
@@ -171,9 +172,26 @@ String existingRateTawkeel = data['Rating_Agency'];
       throw Exception('Failed to load the best cars, there seems to be an issue connecting to the server');
     }
       }
-  Future<dynamic> extractBestWorst(String? Make, String? Model, String? Year) async {
-    var url = 'http://carstreasure.000webhostapp.com/getCarDetailsBestWorst.php';
+  Future<List<BestAgencies>> selectBestAgencies() async{
+    var url = 'https://carkenz.com/selectBestAgencies.php';
 
+    http.Response response = await http.post(
+        Uri.parse(url), body: null);
+
+    if (response.statusCode == 200) {
+      List<dynamic> l = json.decode(response.body);
+      print(l);
+      List<BestAgencies> bestAgenciez = List<BestAgencies>.from(l.map((model)=> BestAgencies.fromJson(model)));
+      return bestAgenciez;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load the best agencies, there seems to be an issue connecting to the server');
+    }
+  }
+  Future<dynamic> extractBestWorst(String? Make, String? Model, String? Year) async {
+    var url = 'https://carkenz.com/getCarDetailsBestWorst.php';
+    dynamic data;
     var dataToBeSent = {
       "Manufacturer": Make,
       "Model": Model,
@@ -182,13 +200,38 @@ String existingRateTawkeel = data['Rating_Agency'];
 
     http.Response response = await http.post(
         Uri.parse(url), body: dataToBeSent);
-    var data = jsonDecode(response.body);
 
+    if(response.body=="no data, something went wrong"){
+      data = response.body;
+    } else {
+       data = jsonDecode(response.body);
+    }
+
+    return data;
+  }
+
+  Future<dynamic> getMechanicsForMyCar(String? Make, String? Model, String? Year) async {
+    var url = 'https://carkenz.com/mechanicsOfOneCar.php';
+    dynamic data;
+    var dataToBeSent = {
+      "Manufacturer": Make,
+      "Model": Model,
+      "Year": Year
+    };
+
+    http.Response response = await http.post(
+        Uri.parse(url), body: dataToBeSent);
+    if(response.body=="no mechanics aslan"){
+       data = response.body;
+    } else {
+       data = jsonDecode(response.body);
+    }
 
 
     //if(data['Manufacturer']==Make){
     //print("found it in database!");
     return data;
   }
+
 
 }

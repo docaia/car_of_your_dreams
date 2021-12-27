@@ -90,6 +90,8 @@ List<CarModel> mKIA =[
   CarModel('SPORTAGE'),
 ];
 List<CarModel> mFIAT = [
+  CarModel('TIPO'),
+  CarModel('UNO'),
   CarModel('124'),
   CarModel('125'),
   CarModel('126'),
@@ -126,8 +128,6 @@ List<CarModel> mFIAT = [
   CarModel('SHINKO'),
   CarModel('SIENA'),
   CarModel('TEMPRA'),
-  CarModel('TIPO'),
-  CarModel('UNO'),
   CarModel('ZASTAVA'),
 ];
 List<CarModel> mHyundai = [
@@ -296,4 +296,18 @@ List<CarModel> mVolksWagen=[
   CarModel('Jetta'),
   CarModel('Tiguan'),
   CarModel('Touareg'),
+];
+List<CarModel> mPeugeot =[
+  CarModel('301'),
+  CarModel('508'),
+  CarModel('2008'),
+  CarModel('3008'),
+  CarModel('5008'),
+];
+List<CarModel> mNissan = [
+  CarModel('Sunny'),
+  CarModel('Sentra'),
+  CarModel('Juke'),
+  CarModel('Qashqai'),
+  CarModel('Patrol'),
 ];

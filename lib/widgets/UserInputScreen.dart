@@ -96,7 +96,7 @@ Expanded(
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children:<Widget> [
-                        FlatButton(onPressed: (){},
+                        FlatButton(onPressed: ()async{Navigator.pushNamed(context, toScreenNum);},
                             child: Text("Skip", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white)),)),
                         FlatButton(onPressed: ()async{Navigator.pushNamed(context, toScreenNum);
                         print("${Provider.of<CarsProvider>(context, listen: false).selectedIssueBad!}");

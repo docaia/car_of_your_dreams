@@ -21,7 +21,6 @@ class CarSelection extends StatelessWidget {
   List<Text> currentModel=[];
   String? carModel;
   String? carMan;
-
   String? yearOfMan;
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class CarSelection extends StatelessWidget {
 //        carData.starStatusChange(star);
 //        star = carData.myToggle.isChecked;
 //      }
-
+      List<Text> manufacturersText = Provider.of<CarsProvider>(context,listen: false).manuf();
       return Column(
         children: <Widget>[
           Expanded(
@@ -47,20 +46,22 @@ class CarSelection extends StatelessWidget {
                       itemExtent: 32,
                       backgroundColor: Colors.blueAccent,
                       onSelectedItemChanged: (manu) {
-                        carData.manufacturers[manu];
+                        manufacturersText[manu];
                         carData.currentCarManufacturer =
-                        carData.manufacturers[manu];
+                        Text(carData.manufacturers[manu].name);
                         carMan = carData.currentCarManufacturer.data;
-//
-                        print(carMan);
-
+                       // carData.itemNum=0;
+                        //print(carMan);
+                        carData.itemNum= carData.makeItemzero(carData.itemNum);
+print(carData.itemNum);
 
                         currentModel = carData
                             .modelSelection(carData.currentCarManufacturer);
                         carData.models = currentModel;
+                        print(currentModel); //carData.models);
 //print(carData.models);
                       },
-                      children: carData.manufacturers,
+                      children: manufacturersText,
                     ),
                   ),
                   Expanded(
@@ -68,6 +69,7 @@ class CarSelection extends StatelessWidget {
                       child: CupertinoPicker(
                         itemExtent: 32,
                         backgroundColor: Colors.blueAccent,
+                        scrollController: FixedExtentScrollController(initialItem: carData.itemNum!),
                         onSelectedItemChanged: (model) {
                           carData.models[model];
                           carData.myModel = carData.models[model];
@@ -136,7 +138,7 @@ class CarSelection extends StatelessWidget {
                             : Color(0xFFFFFACD), starLabel: "1",),
 
                         onPressed: () {
-
+                          carData.falseAll();
                           currentUserRatingT = 1;
                           carData.starStatusChange(carData.star1IsChecked);
                           carData.star1IsChecked = carData.myToggle.isChecked;
@@ -149,10 +151,11 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFF5EDA1), starLabel: "2",),
                         onPressed: () {
-
+                          carData.falseAll();
                           currentUserRatingT = 2;
                           carData.starStatusChange(carData.star2IsChecked);
                           carData.star2IsChecked = carData.myToggle.isChecked;
+
                         },
                       )),
                   Expanded(
@@ -161,10 +164,12 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFF8E76A), starLabel: "3",),
                         onPressed: () {
-
+carData.falseAll();
                           currentUserRatingT = 3;
                           carData.starStatusChange(carData.star3IsChecked);
                           carData.star3IsChecked = carData.myToggle.isChecked;
+                          print(carData.star2IsChecked);
+                          print(carData.star3IsChecked);
                         },
                       )),
                   Expanded(
@@ -173,7 +178,7 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFFFDF00), starLabel: "4",),
                         onPressed: () {
-
+                          carData.falseAll();
                           currentUserRatingT = 4;
                           carData.starStatusChange(carData.star4IsChecked);
                           carData.star4IsChecked = carData.myToggle.isChecked;
@@ -183,7 +188,7 @@ class CarSelection extends StatelessWidget {
                     child: StarButton(starColor: carData.star5IsChecked ? Colors
                         .black : Color(0xFFFFFF00), starLabel: "5",),
                     onPressed: () {
-
+                      carData.falseAll();
                       currentUserRatingT = 5;
                       carData.starStatusChange(carData.star5IsChecked);
                       carData.star5IsChecked = carData.myToggle.isChecked;
@@ -232,7 +237,7 @@ class CarSelection extends StatelessWidget {
                             : Color(0xFFFFFACD), starLabel: "1",),
 
                         onPressed: () {
-
+carData.falseAllD();
                           currentUserRatingD = 1;
                           carData.starStatusChangeDep(carData.dep1IsChecked);
                           carData.dep1IsChecked = carData.myToggleDependability.ratingToggleForDependability(carData.dep1IsChecked);
@@ -245,7 +250,7 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFF5EDA1), starLabel: "2",),
                         onPressed: () {
-
+                          carData.falseAllD();
                           currentUserRatingD = 2;
                           carData.starStatusChangeDep(carData.dep2IsChecked);
                           carData.dep2IsChecked = carData.myToggleDependability.isChecked;
@@ -257,7 +262,7 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFF8E76A), starLabel: "3",),
                         onPressed: () {
-
+                          carData.falseAllD();
                           currentUserRatingD = 3;
                           carData.starStatusChangeDep(carData.dep3IsChecked);
                           carData.dep3IsChecked = carData.myToggleDependability.isChecked;
@@ -269,7 +274,7 @@ class CarSelection extends StatelessWidget {
                             ? Colors.black
                             : Color(0xFFFFDF00), starLabel: "4",),
                         onPressed: () {
-
+                          carData.falseAllD();
                           currentUserRatingD = 4;
                           carData.starStatusChangeDep(carData.dep4IsChecked);
                           carData.dep4IsChecked = carData.myToggleDependability.isChecked;
@@ -279,7 +284,7 @@ class CarSelection extends StatelessWidget {
                     child: StarButton(starColor: carData.dep5IsChecked ? Colors
                         .black : Color(0xFFFFFF00), starLabel: "5",),
                     onPressed: () {
-
+                      carData.falseAllD();
                       currentUserRatingD = 5;
                       carData.starStatusChangeDep(carData.dep5IsChecked);
                       carData.dep5IsChecked = carData.myToggleDependability.isChecked;

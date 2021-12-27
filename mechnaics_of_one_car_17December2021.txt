@@ -1,0 +1,66 @@
+<?php
+require_once('db.php');
+
+
+// we will get actions from the app to do operations in the database...
+
+$Manufacturer = $_POST['Manufacturer'];
+$Model = $_POST['Model'];
+$Year = $_POST['Year']  ;
+
+
+
+  // Get the car ID from the cars table
+    
+        $query = "SELECT id from cars WHERE Manufacturer = '$Manufacturer' AND Model= '$Model' AND Year= '$Year' ";
+        $result = mysqli_query($db,$query);
+        $carIdData= mysqli_fetch_array($result);
+  // now go to relationmc and get the mechidx associated with this car id      
+        $query2 = "SELECT mechidx from relationmc WHERE caridx= '$carIdData[0]' order by chosen";
+        $result2 = mysqli_query($db,$query2);
+        if (!$result2) {
+    printf("Error: %s\n", mysqli_error($db));
+    exit();
+}
+
+
+$fullMechData = array();
+        while ($data= mysqli_fetch_array($result2)){
+        $fullMechData[]=$data;
+        }
+// fetch the mechanics who are recommended for this car, you have their IDs, so get them from the mechanics table
+//var_dump($fullMechData);
+if(!empty($fullMechData)){
+
+$foundMechanics=array();
+$query3="SELECT mechanic, phone, location FROM mechanics WHERE ";
+foreach($fullMechData as $key=> $value)
+{
+  //  var_dump($value);
+$query3="SELECT mechanic, phone, location FROM mechanics WHERE ID='{$value[0]}'";
+$res=mysqli_query($db, $query3);
+while($row=mysqli_fetch_array($res))
+{
+//Push the rows you have found to the foundRows array declared above
+$foundMechanics[] = $row;
+}
+}
+
+//print_r($foundMechanics);
+        
+        if($foundMechanics[0]>1) {
+            //echo json_encode("exists");
+            echo json_encode($foundMechanics);
+            
+        } else {
+       
+       
+       echo json_encode("no data, something went wrong");
+            
+        
+        }
+}
+else {
+    echo json_encode("no mechanics aslan");
+}
+        ?>

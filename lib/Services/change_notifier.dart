@@ -1,4 +1,5 @@
 import 'package:car_of_your_dreams/widgets/StarRating_toggle.dart';
+import 'package:car_of_your_dreams/widgets/bestAgencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:car_of_your_dreams/widgets/Constants.dart';
@@ -7,6 +8,9 @@ import 'package:car_of_your_dreams/widgets/bestCars.dart';
 import 'package:convert/convert.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:car_of_your_dreams/Services/mySQL_setup.dart';
+import 'package:car_of_your_dreams/widgets/Manufacturers.dart';
+import 'package:car_of_your_dreams/Services/carModelsLists.dart';
+import 'package:car_of_your_dreams/widgets/CarModels.dart';
 
 class CarsProvider extends ChangeNotifier {
   //put here the main variables and the car list
@@ -18,12 +22,27 @@ String? userPassword;
 String name="user";
 String mechPhone="";
 String mechLocation="";
+int? itemNum = 0;
+
+int? makeItemzero(int? gg){
+  gg = 0;
+  notifyListeners();
+  return gg;
+
+}
 
 List<BestCars> bestCarsList=[BestCars(Man: '', Model: '',year: '', Rate:''),
   BestCars(Man: '', Model: '',year: '', Rate:''),
   BestCars(Man: '', Model: '',year: '', Rate:''),
   BestCars(Man: '', Model: '',year: '', Rate:''),
   BestCars(Man: '', Model: '',year: '', Rate:''),
+];
+List<BestAgencies> bestAgenciesList = [
+  BestAgencies(Man: '', Agency: '', Rate: ''),
+  BestAgencies(Man: '', Agency: '', Rate: ''),
+  BestAgencies(Man: '', Agency: '', Rate: ''),
+  BestAgencies(Man: '', Agency: '', Rate: ''),
+  BestAgencies(Man: '', Agency: '', Rate: ''),
 ];
 List<String> goodCars = [];
   ////Read excel sheet!!///
@@ -140,7 +159,7 @@ List<String> goodCars = [];
   ];
   int model = 0;
   Text currentCarManufacturer = Text('Toyota');
-  Text myYear = Text('2005');
+  Text myYear = Text('2022');
   Text myModel = Text('Camry');
   String? userFeedback;
   List<Text> models = [ Text('Camry', style: kStyle,),
@@ -160,15 +179,26 @@ bool dep4IsChecked = false;
 bool dep5IsChecked = false;
 
 bool criteriaVisibility = false;
+bool criteriaVisibilityAgencies = false;
 
-  List<Text> manufacturers = [
-    Text('Toyota', style: kStyle,),
-    Text('VolksWagen', style: kStyle,),
-    Text('Nissan', style: kStyle,),
-    Text('Renault', style: kStyle,),
-    Text('Mercedes', style: kStyle,),
-    Text('BMW', style: kStyle,)
+  List<Manufacturers> manufacturers =
+  [
+    // Text('Toyota', style: kStyle,),
+    // Text('VolksWagen', style: kStyle,),
+    // Text('Nissan', style: kStyle,),
+    // Text('Renault', style: kStyle,),
+    // Text('Mercedes', style: kStyle,),
+    // Text('BMW', style: kStyle,)
+Manufacturers('Toyota', mToyota),Manufacturers('JEEP', mJEEP), Manufacturers('KIA', mKIA), Manufacturers('FIAT', mFIAT), Manufacturers('Hyundai', mHyundai), Manufacturers('Mercedes', mMercedes),Manufacturers('BMW', mBMW), Manufacturers('SEAT', mSEAT), Manufacturers('VolksWagen', mVolksWagen),Manufacturers('Peugeot', mPeugeot), Manufacturers('Nissan', mNissan),
   ];
+List<Text> manuf(){
+  List<Text> hh=[];
+  for (int i = 0; i < manufacturers.length; i++) {
+    hh.add(Text(manufacturers[i].name)) ;
+  };
+  return hh;
+}
+
   List<Text> volksWagenModels = [
     Text('Golf', style: kStyle,),
     Text('Passat', style: kStyle,),
@@ -199,25 +229,53 @@ bool criteriaVisibility = false;
     Text('Captur', style: kStyle,),
   ];
   List<Text> year = [
-    Text('2005', style: kStyle,),
-    Text('2010', style: kStyle,),
+    Text('2022', style: kStyle,),
+    Text('2021', style: kStyle,),
+    Text('2020', style: kStyle,),
+    Text('2019', style: kStyle,),
+    Text('2018', style: kStyle,),
+    Text('2017', style: kStyle,),
+    Text('2016', style: kStyle,),
     Text('2015', style: kStyle,),
-    Text('2020', style: kStyle,)
+    Text('2014', style: kStyle,),
+    Text('2013', style: kStyle,),
+    Text('2012', style: kStyle,),
+    Text('2011', style: kStyle,),
+    Text('2010', style: kStyle,),
+    Text('2009', style: kStyle,),
+    Text('2008', style: kStyle,),
+    Text('2007', style: kStyle,),
+    Text('2006', style: kStyle,),
+    Text('2005', style: kStyle,),
+    Text('2004', style: kStyle,),
+    Text('2003', style: kStyle,),
+    Text('2002', style: kStyle,),
+    Text('2001', style: kStyle,),
+    Text('2000', style: kStyle,),
+
   ];
 
-  List<Text> modelSelection(Text Manufacturer) {
-    List<Text>theModel = [Text('hdsflhsdjf')];
+ List<CarModel>?modelsforManu (Text Manufacturer) {
+  //search through the current manufacturers until you find the selected manufacturer, assign its models to a list
+  for (int i = 0; i < manufacturers.length; i++) {
+    if (manufacturers[i].name == Manufacturer.data) {
+      return manufacturers[i].models;
+    }
 
-    if(Manufacturer.data == "Toyota") {theModel = toyotaModels;}
-    else if(Manufacturer.data == "VolksWagen") {theModel = volksWagenModels;}
-    else if(Manufacturer.data == "Nissan") {theModel = NissanModels;}
-    else if(Manufacturer.data == "Renault") {theModel = RenaultModels;}
-    else if(Manufacturer.data == "Mercedes") {theModel = MercedesModels;}
-    else if(Manufacturer.data == "BMW") {theModel = BMWModels;}
-    else theModel =[Text('wong')];
+  }
+
+}
+  List<Text> modelSelection(Text Manufacturer) {
+    List<CarModel>? hh = modelsforManu(Manufacturer);
+
+    //convert the models list to a List<Text>
+    List<Text> modelsInText = [];
+    for (int i = 0; i < hh!.length; i++) {
+      modelsInText.add(Text(hh[i].name)) ;
+    };
     notifyListeners();
-//    print(theModel);
-    return theModel;
+   return modelsInText;
+
   }
 
   StarRatingToggle myToggle = StarRatingToggle();
@@ -242,10 +300,19 @@ void starStatusChangeDep(bool isChecked1) {
     star5IsChecked = false;
     myToggle.isChecked = false;
   }
+
+void falseAllD() {
+  dep1IsChecked = false;
+  dep2IsChecked = false;
+  dep3IsChecked = false;
+  dep4IsChecked = false;
+  dep5IsChecked = false;
+  myToggleDependability.isChecked = false;
+}
 int i = -1;
   Future getBest(List<dynamic> gg, BuildContext context) async {
   gg = bestCarsList;
-  criteriaVisibility =true;
+  criteriaVisibility =!criteriaVisibility;
     // await gg(elem){};
   // map(
   //         (elem)
@@ -257,6 +324,13 @@ int i = -1;
   //
   //     });
    notifyListeners();
+}
+
+Future getBestAg(List<dynamic> gg, BuildContext context) async {
+  gg = bestAgenciesList;
+  criteriaVisibilityAgencies =!criteriaVisibilityAgencies;
+
+  notifyListeners();
 }
 List<String> problemsList =[
   'Noisy',
