@@ -6,6 +6,7 @@ import 'package:car_of_your_dreams/widgets/Manufacturers.dart';
 import 'package:car_of_your_dreams/widgets/CarModels.dart';
 import 'package:car_of_your_dreams/Services/carModelsLists.dart';
 import 'package:car_of_your_dreams/widgets/carGoodandBadThings.dart';
+import 'package:car_of_your_dreams/widgets/googleMaps.dart';
 
 class ShowLocation extends StatelessWidget {
   @override
@@ -80,6 +81,7 @@ class _CarDropDownState extends State<CarDropDown> {
   String? thirdMechanicName;
   String? thirdMechanicPhone;
   String? thirdMechanicLocation;
+  String? latLongFirst;
   late List<GoodAndBad> theGood;
   late List<GoodAndBad> theBad;
   late List<Manufacturers> cars;
@@ -88,7 +90,7 @@ class _CarDropDownState extends State<CarDropDown> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cars =[Manufacturers('Toyota', mToyota),Manufacturers('JEEP', mJEEP), Manufacturers('KIA', mKIA), Manufacturers('FIAT', mFIAT), Manufacturers('Hyundai', mHyundai), Manufacturers('Mercedes', mMercedes),Manufacturers('BMW', mBMW), Manufacturers('SEAT', mSEAT), Manufacturers('VolksWagen', mVolksWagen), Manufacturers('Peugeot', mPeugeot), Manufacturers('Nissan', mNissan),];
+    cars =[Manufacturers('Toyota', mToyota),Manufacturers('JEEP', mJEEP), Manufacturers('KIA', mKIA), Manufacturers('FIAT', mFIAT), Manufacturers('Hyundai', mHyundai), Manufacturers('Mercedes', mMercedes),Manufacturers('BMW', mBMW), Manufacturers('SEAT', mSEAT), Manufacturers('VolksWagen', mVolksWagen), Manufacturers('Peugeot', mPeugeot), Manufacturers('Nissan', mNissan), Manufacturers('Suzuki', mSuzuki),];
   }
   @override
 
@@ -347,6 +349,10 @@ RichText(text: TextSpan(text: 'Agency: ', style: GoogleFonts.lato(textStyle:Text
         TextSpan(text:' $secondMechanicLocation', style: GoogleFonts.lato(textStyle:TextStyle(fontSize: 23, color: Colors.purple, fontWeight:FontWeight.w500 ) )),
       ]),
   ),
+Container(
+  height: 300,
+  child: GoogleMap(),
+)
 ],
 );
 

@@ -31,8 +31,9 @@ class HomeScreen extends StatelessWidget {
                       child:Text("Welcome ${Provider.of<GoogleSignInAPI>(context, listen: false).nameOfCurrentUser}",
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) //${c.user.displayName}
                     ),
-                    ElevatedButton(onPressed:(){
+                    ElevatedButton(onPressed:() async {
                       Provider.of<GoogleSignInAPI>(context, listen: false).nameOfCurrentUser = null;
+                      Provider.of<GoogleSignInAPI>(context, listen: false).handleSignOut();
                       Navigator.pushNamed(context, '0');
                     },
                         style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.amber) ),
@@ -56,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                     },
                       color: Colors.amber[400],
                       child: Text('Choose your criteria', style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF0E0859),
                           fontWeight: FontWeight.w900,
                           fontSize: 25),),
                     ),
@@ -76,7 +77,7 @@ class HomeScreen extends StatelessWidget {
 
                     }, color: Colors.blueAccent,
                       child: Text("Rate your own cars", style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF0E0859),
                           fontWeight: FontWeight.w800,
                           fontSize: 20),),),
                   ),
@@ -86,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                         Navigator.pushNamed(context, '4');
                       }, color: Colors.greenAccent,
                       child: Text("Car Details", style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF0E0859),
                           fontWeight: FontWeight.w800,
                           fontSize: 20),),),
                   )

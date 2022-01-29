@@ -34,6 +34,22 @@ class CarSelection extends StatelessWidget {
       List<Text> manufacturersText = Provider.of<CarsProvider>(context,listen: false).manuf();
       return Column(
         children: <Widget>[
+          Container( decoration: BoxDecoration(color: Colors.blueAccent),
+            child: Padding(
+              padding: const EdgeInsets.only(right:16, top:8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(onPressed:(){
+
+                    Navigator.pushNamed(context, '1');
+                  },
+                      style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.lightBlueAccent) ),
+                      child: Text("Back to Home")),
+                ],
+              ),
+            ),
+          ),
           Expanded(
             child: Container(
               decoration: BoxDecoration(color: Colors.blueAccent),
@@ -352,12 +368,12 @@ carData.falseAllD();
        // currentUserRating);
 
 
-    var presence = await db.Ispresent;
-    if(presence==true){
-      carData.communityRating = await db.currentRating.toStringAsFixed(2);
-    } else{
-      carData.communityRating = currentUserRatingT.toString();
-    }
+    // var presence = await db.Ispresent;
+    // if(presence==true){
+    //   carData.communityRating = await db.currentRating.toStringAsFixed(2);
+    // } else{
+    //   carData.communityRating = currentUserRatingT.toString();
+    // }
 
   }
 }

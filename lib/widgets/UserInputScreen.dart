@@ -25,6 +25,22 @@ Db db = Db();
             decoration: BoxDecoration(color: Colors.blueAccent),
             child: Column(
               children: [
+                Container( decoration: BoxDecoration(color: Colors.blueAccent),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right:16, top:8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(onPressed:(){
+
+                          Navigator.pushNamed(context, '1');
+                        },
+                            style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.lightBlueAccent) ),
+                            child: Text("Back to Home")),
+                      ],
+                    ),
+                  ),
+                ),
                 Expanded(
                   flex:2,
                   child: RichText(

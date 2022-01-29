@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:car_of_your_dreams/widgets/bestDependability.dart';
 import 'package:http/http.dart' as http; // add the http plugin in pubspec.yaml file.
 import 'package:car_of_your_dreams/widgets/bestCars.dart';
 import 'package:car_of_your_dreams/widgets/bestAgencies.dart';
+import 'package:car_of_your_dreams/widgets/familyCars.dart';
 
 
 class MySQL{
@@ -233,5 +235,40 @@ String existingRateTawkeel = data['Rating_Agency'];
     return data;
   }
 
+  Future<List<BestDepend>> selectBestDependables() async{
+    var url = 'https://carkenz.com/selectBestDependables.php';
+
+    http.Response response = await http.post(
+        Uri.parse(url), body: null);
+
+    if (response.statusCode == 200) {
+      List<dynamic> l = json.decode(response.body);
+      print(l);
+      List<BestDepend> bestdepz = List<BestDepend>.from(l.map((model)=> BestDepend.fromJson(model)));
+      return bestdepz;//BestCars.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load the best dependable cars, there seems to be an issue connecting to the server');
+    }
+  }
+
+  Future<List<FamilyCars>> getFamilyCars() async{
+    var url = 'https://carkenz.com/getFamilyCars.php';
+
+    http.Response response = await http.post(
+        Uri.parse(url), body: null);
+
+    if (response.statusCode == 200) {
+      List<dynamic> l = json.decode(response.body);
+      print(l);
+      List<FamilyCars> bestFam = List<FamilyCars>.from(l.map((model)=> FamilyCars.fromJson(model)));
+      return bestFam;//BestCars.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load the best family cars, there seems to be an issue connecting to the server');
+    }
+  }
 
 }

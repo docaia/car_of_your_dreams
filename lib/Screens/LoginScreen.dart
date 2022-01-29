@@ -98,14 +98,14 @@ else return Container(
             children: <Widget>[
               Align(alignment: Alignment.centerLeft,
                   child: WelcomeText('Get to know the highest rated cars,')),
-              Align(alignment: Alignment.centerLeft,child: WelcomeText('good and bad things for each car,')),
+              Align(alignment: Alignment.centerLeft,child: WelcomeText('Their pros and cons,')),
               Align(alignment: Alignment.centerLeft,child: WelcomeText('best car mechanics near you,')),
               Align(alignment: Alignment.centerLeft,child: WelcomeText('best car agencies,')),
               Align(alignment: Alignment.centerLeft,child: WelcomeText('and more..')),
               SizedBox(height: 100,),
-              Text('Welcome to Car of your Dreams', style: GoogleFonts.ubuntu(
+              Text('Welcome to Car Kenz', style: GoogleFonts.sourceSansPro(
                   textStyle: TextStyle(fontSize: 35,
-                      color: Colors.white,
+                      color: Color(0xFF2A0413),
                       fontWeight: FontWeight.w500,
                       decoration: TextDecoration.none))),
               SizedBox(height: 8,),

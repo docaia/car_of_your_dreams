@@ -311,3 +311,13 @@ List<CarModel> mNissan = [
   CarModel('Qashqai'),
   CarModel('Patrol'),
 ];
+List<CarModel> mSuzuki = [
+  CarModel('Alto'),
+  CarModel('Maruti'),
+  CarModel('S Presso'),
+  CarModel('Dzire'),
+  CarModel('Baleno'),
+  CarModel('Ciaz'),
+  CarModel('Ertiga'),
+  CarModel('Vitara'),
+];

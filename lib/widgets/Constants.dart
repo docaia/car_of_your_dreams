@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 TextStyle kStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.w900);
 TextStyle kButtonStyle = TextStyle(backgroundColor: Colors.blueAccent, color: Colors.white);
-TextStyle kTextStyleLoginScreen = GoogleFonts.permanentMarker(
-    textStyle: TextStyle(fontSize: 30,
-        color: Colors.white70,
+TextStyle kTextStyleLoginScreen = GoogleFonts.romanesco(
+    textStyle: TextStyle(fontSize: 40,
+        color: Color(0xFF042A16),
         fontWeight: FontWeight.w100,
         decoration: TextDecoration.none));
 
@@ -31,5 +31,8 @@ InputDecoration kMessageTextFieldDecorationForm(textDescription) {
   hintText: textDescription,
   border: OutlineInputBorder(),
 );
-
-}
+  }
+TextStyle kCriteriaListStyle = GoogleFonts.ubuntu(textStyle: TextStyle(
+    fontSize: 25,
+    color: Colors.white70,
+    fontWeight: FontWeight.w400));
