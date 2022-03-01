@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
     return Consumer<GoogleSignInAPI>(builder: (context, c, child)
     {
       return Scaffold(
-        backgroundColor: Colors.amber[400],
+        backgroundColor: Colors.greenAccent,
         //one big column containing everything
         body: Column(
           children: <Widget>[
@@ -31,12 +31,15 @@ class HomeScreen extends StatelessWidget {
                       child:Text("Welcome ${Provider.of<GoogleSignInAPI>(context, listen: false).nameOfCurrentUser}",
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) //${c.user.displayName}
                     ),
+                    ElevatedButton(onPressed: (){Navigator.pushNamed(context, 'visionAndMission');},
+                        style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.white) ),
+                        child: Text("Our Vision and Mission", style:TextStyle(color: Colors.black))),
                     ElevatedButton(onPressed:() async {
                       Provider.of<GoogleSignInAPI>(context, listen: false).nameOfCurrentUser = null;
                       Provider.of<GoogleSignInAPI>(context, listen: false).handleSignOut();
                       Navigator.pushNamed(context, '0');
                     },
-                        style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.amber) ),
+                        style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.amber ) ), //amber
                         child: Text("Sign out"))
                   ],
                 ),
@@ -47,21 +50,20 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('Want to buy a car?', style: TextStyle(
+                    Text('Looking for mechanics near you, best and worst details of a car?', style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
                     ),),
-                    FlatButton(onPressed: () {
-                      Navigator.pushNamed(context, '3');
-                    },
-                      color: Colors.amber[400],
-                      child: Text('Choose your criteria', style: TextStyle(
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '4');
+                      }, color: Colors.greenAccent,
+                      child: Text("Car Details", style: TextStyle(
                           color: Color(0xFF0E0859),
                           fontWeight: FontWeight.w900,
-                          fontSize: 25),),
-                    ),
-                    Icon(Icons.gesture, color: Colors.white30, size: 50,)
+                          fontSize: 27),),),
+                    Icon(Icons.all_inclusive, color: Colors.white30, size: 50,)
                   ]
               ),
             ),
@@ -78,18 +80,33 @@ class HomeScreen extends StatelessWidget {
                     }, color: Colors.blueAccent,
                       child: Text("Rate your own cars", style: TextStyle(
                           color: Color(0xFF0E0859),
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20),),),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 25),),),
                   ),
                   Expanded(
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '4');
-                      }, color: Colors.greenAccent,
-                      child: Text("Car Details", style: TextStyle(
-                          color: Color(0xFF0E0859),
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20),),),
+                    child:  Container(
+                      color: Colors.amber[400],
+                      child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
+children: <Widget>[
+Text('Want to buy a car?', style: TextStyle(
+color: Colors.white,
+fontWeight: FontWeight.w700,
+fontSize: 15,
+),),
+FlatButton(onPressed: () {
+Navigator.pushNamed(context, '3');
+},
+color: Colors.amber[400],
+child: Text('Choose your criteria', style: TextStyle(
+color: Color(0xFF0E0859),
+fontWeight: FontWeight.w900,
+fontSize: 25),),
+),
+Icon(Icons.gesture, color: Colors.white30, size: 50,)
+]
+),
+                    ),
                   )
                 ],
               ),

@@ -41,12 +41,15 @@ class CriteriaScreen extends StatelessWidget {
                 ),
             Align(
               alignment: Alignment.center,
-              child: Text('What do you wish?', style: TextStyle(
+              child: Text('What do you want in a car?', style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
                 fontSize: 40,
               ),),
             ),
+                SizedBox(
+                  height: 20,
+                ),
                 //each widget below will contain a question mark button, another button for fetching its list of cars and an icon all stacked
                 Stack(
                   alignment: Alignment.center,
@@ -273,28 +276,54 @@ clipBehavior: Clip.none,
                     ),
                   ),
                 ),
-                Card(
-                  shadowColor: Colors.black26,
-                  color: Colors.yellowAccent,
-                  elevation: 100,
-                  clipBehavior: Clip.hardEdge,
-                  child: ListTile(
-                minLeadingWidth: 25,
-                onTap: () async{
-            List bestCars = await MySQL().selectBestCars();
-Provider.of<CarsProvider>(context, listen: false).bestCarsList = await MySQL().selectBestCars();
-            print(bestCars[0].Man);
-
-
-   await Provider.of<CarsProvider>(context, listen:false).getBest(bestCars, context);
-
-//print(dd);
-                },
-
-                leading: CircleAvatar(child: Icon(Icons.car_rental_rounded)),
-                    title: Text('Choose the best cars overall'),
-            ),
+//                 Card(
+//                   shadowColor: Colors.black26,
+//                   color: Colors.yellowAccent,
+//                   elevation: 100,
+//                   clipBehavior: Clip.hardEdge,
+//                   child: ListTile(
+//                 minLeadingWidth: 25,
+//                 onTap: () async{
+//             List bestCars = await MySQL().selectBestCars();
+// Provider.of<CarsProvider>(context, listen: false).bestCarsList = await MySQL().selectBestCars();
+//             print(bestCars[0].Man);
+//
+//
+//    await Provider.of<CarsProvider>(context, listen:false).getBest(bestCars, context);
+//
+// //print(dd);
+//                 },
+//
+//                 leading: CircleAvatar(child: Icon(Icons.car_rental_rounded)),
+//                     title: Text('Choose the best cars overall'),
+//             ),
+//                 ),
+                SizedBox(
+                  height: 20,
                 ),
+                Align(
+     alignment: Alignment.center,
+     child: Container(
+       height: MediaQuery.of(context).size.height * 0.1 ,
+       width: MediaQuery.of(context).size.width * 0.12 ,
+       child: ElevatedButton(onPressed: () async{
+         List bestCars = await MySQL().selectBestCars();
+         Provider.of<CarsProvider>(context, listen: false).bestCarsList = await MySQL().selectBestCars();
+         print(bestCars[0].Man);
+
+
+         await Provider.of<CarsProvider>(context, listen:false).getBest(bestCars, context);
+
+       },
+         style: ElevatedButton.styleFrom(
+           side:BorderSide(),
+           fixedSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.1 ),
+         )
+         ,
+
+         child: Text('Best overall')),
+     ),
+   ),
     Visibility(
       visible: Provider.of<CarsProvider>(context, listen: true).criteriaVisibility,
       child: SizedBox(
@@ -358,14 +387,35 @@ Provider.of<CarsProvider>(context, listen: false).bestCarsList = await MySQL().s
           ),
       ),
     ),
-                Card(
-                  shadowColor: Colors.black26,
-                  color: Colors.lightGreenAccent,
-                  elevation: 100,
-                  clipBehavior: Clip.hardEdge,
-                  child: ListTile(
-                    minLeadingWidth: 25,
-                    onTap: () async{
+//                 Card(
+//                   shadowColor: Colors.black26,
+//                   color: Colors.lightGreenAccent,
+//                   elevation: 100,
+//                   clipBehavior: Clip.hardEdge,
+//                   child: ListTile(
+//                     minLeadingWidth: 25,
+//                     onTap: () async{
+//                       List bestAgencies = await MySQL().selectBestAgencies();
+//                       Provider.of<CarsProvider>(context, listen: false).bestAgenciesList = await MySQL().selectBestAgencies();
+//                       print(bestAgencies[0].Man);
+//
+//
+//                       await Provider.of<CarsProvider>(context, listen:false).getBestAg(bestAgencies, context);
+//
+// //print(dd);
+//                     },
+//
+//                     leading: CircleAvatar(child: Icon(Icons.apartment_outlined)),
+//                     title: Text('Choose the best car agencies'),
+//                   ),
+//                 ),
+              SizedBox(height: 20,),
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.1 ,
+                    width: MediaQuery.of(context).size.width * 0.12 ,
+                    child: ElevatedButton(onPressed: () async{
                       List bestAgencies = await MySQL().selectBestAgencies();
                       Provider.of<CarsProvider>(context, listen: false).bestAgenciesList = await MySQL().selectBestAgencies();
                       print(bestAgencies[0].Man);
@@ -375,9 +425,13 @@ Provider.of<CarsProvider>(context, listen: false).bestCarsList = await MySQL().s
 
 //print(dd);
                     },
+                        style: ElevatedButton.styleFrom(
+                          side:BorderSide(),
+                          fixedSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.1 ),
+                        )
+                        ,
 
-                    leading: CircleAvatar(child: Icon(Icons.apartment_outlined)),
-                    title: Text('Choose the best car agencies'),
+                        child: Text('Best Agencies')),
                   ),
                 ),
                 Visibility(

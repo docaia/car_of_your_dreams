@@ -112,9 +112,16 @@ class UserInputGood extends StatelessWidget {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children:<Widget> [
-                        FlatButton(onPressed: () {Navigator.pushNamed(context, toScreenNum);},
-                            child: Text("Skip", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white)),)),
-                        FlatButton(onPressed: ()async{Navigator.pushNamed(context, toScreenNum);
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8.0,0,0,8),
+                          child: TextButton(onPressed: () {Navigator.pushNamed(context, toScreenNum);},
+                              style: ButtonStyle(side: MaterialStateProperty.all(BorderSide() )),
+                              child: Text("Skip", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),)),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0,0,8.0,8),
+                          child: TextButton(onPressed: ()async{Navigator.pushNamed(context, toScreenNum);
     MySQL().carIssuesInSQL(
     Provider.of<CarsProvider>(context, listen: false).currentCarManufacturer.data!,
     Provider.of<CarsProvider>(context, listen: false).myModel.data!,
@@ -122,8 +129,10 @@ class UserInputGood extends StatelessWidget {
     Provider.of<CarsProvider>(context, listen: false).selectedIssueGood!);
 
     //db.chosenProblem(context);
-                        },
-                            child: Text(rightButtonText, style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),))
+                          },
+                              style: ButtonStyle(side: MaterialStateProperty.all(BorderSide() )),
+                              child: Text(rightButtonText, style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),)),
+                        )
                       ]
                   ),
 

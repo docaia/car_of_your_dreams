@@ -73,7 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
 if (currentUser != null){
   Provider.of<GoogleSignInAPI>(context, listen: false).nameOfCurrentUser = currentUser?.displayName;
   print(Provider.of<GoogleSignInAPI>(context, listen: false).nameOfCurrentUser);
- return HomeScreen() ;
+  Provider.of<GoogleSignInAPI>(context, listen: false).emailOfCurrentUser = currentUser?.email;
+MySQL().googleUp(currentUser?.displayName, currentUser?.email);
+  return HomeScreen() ;
  //  return Column(
  //    children: <Widget> [
  //      ListTile(
@@ -103,7 +105,7 @@ else return Container(
               Align(alignment: Alignment.centerLeft,child: WelcomeText('best car agencies,')),
               Align(alignment: Alignment.centerLeft,child: WelcomeText('and more..')),
               SizedBox(height: 100,),
-              Text('Welcome to Car Kenz', style: GoogleFonts.sourceSansPro(
+              Text('Welcome to Car Treasure', style: GoogleFonts.sourceSansPro(
                   textStyle: TextStyle(fontSize: 35,
                       color: Color(0xFF2A0413),
                       fontWeight: FontWeight.w500,
@@ -127,6 +129,9 @@ else return Container(
                   decoration: InputDecoration(
                     hintText: "Email",
                     border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color:Colors.amber, width: 2)
+                    ),
                     icon:Icon(Icons.email),
                     contentPadding: EdgeInsets.symmetric(horizontal: 20),
                   ),
@@ -143,8 +148,9 @@ else return Container(
                       },
                       decoration: InputDecoration(
                         hintText: "Password",
-
                         border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color:Colors.amber, width: 2)),
                         icon:Icon(Icons.vpn_key_outlined),
                         contentPadding: EdgeInsets.symmetric(horizontal: 20),))
               ),

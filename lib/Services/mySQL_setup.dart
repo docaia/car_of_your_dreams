@@ -103,14 +103,18 @@ String existingRateTawkeel = data['Rating_Agency'];
   return zuzu;
 
   }
-  Future<dynamic> mechanicInfo(String mechName, String mechPhone, String mechLocation, String Make, String model, String year){
+  Future<dynamic> mechanicInfo(String mechName, String Workshop, String mechPhone, String mechLocation, String Make, String model, String year, String specialty, String lati, String longi){
     var mechInfo={
       "mechName": mechName,
+      "workShop": Workshop,
       "mechPhone": mechPhone,
       "mechLocation": mechLocation,
       "Manufacturer": Make,
       "Model": model,
       "Year": year,
+      "specialty": specialty,
+      "latitude": lati,
+      "longitude": longi
     };
     var mechUrl ='https://carkenz.com/mechanic.php';
     var mechanicInsert = postRequest(mechUrl, mechInfo);
@@ -271,4 +275,14 @@ String existingRateTawkeel = data['Rating_Agency'];
     }
   }
 
+  Future<dynamic> googleUp(String? name, String? email) async {
+    var url = 'https://carkenz.com/googleUp.php';
+    var data = {
+      "name": "$name",
+      "email": "$email",
+    };
+    String feedBackFromGoogle= await postRequest(url, data);
+    return feedBackFromGoogle;
+
+  }
 }

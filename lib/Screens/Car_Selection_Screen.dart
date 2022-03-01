@@ -62,7 +62,7 @@ class CarSelection extends StatelessWidget {
                       itemExtent: 32,
                       backgroundColor: Colors.blueAccent,
                       onSelectedItemChanged: (manu) {
-                        manufacturersText[manu];
+                        //manufacturersText[manu];
                         carData.currentCarManufacturer =
                         Text(carData.manufacturers[manu].name);
                         carMan = carData.currentCarManufacturer.data;
@@ -75,6 +75,8 @@ print(carData.itemNum);
                             .modelSelection(carData.currentCarManufacturer);
                         carData.models = currentModel;
                         print(currentModel); //carData.models);
+                        carData.myModel = carData
+                            .modelSelection(carData.currentCarManufacturer)[0];
 //print(carData.models);
                       },
                       children: manufacturersText,
@@ -316,12 +318,20 @@ carData.falseAllD();
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children:<Widget> [
-                TextButton(onPressed: (){Navigator.pushNamed(context, '5');},
-                    child: Text("Skip", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18)),)),
-                FlatButton(onPressed: (){
-                  ApplyRating(carData, currentUserRatingT, currentUserRatingD);
-                  Navigator.pushNamed(context, '5');},
-                    child: Text("Submit, Go Next", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),))
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
+                  child: TextButton(onPressed: (){Navigator.pushNamed(context, '5');},
+                      style: ButtonStyle(side: MaterialStateProperty.all(BorderSide() )),
+                      child: Text("Skip", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18)),)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0,0,8,8),
+                  child: TextButton(onPressed: (){
+                    ApplyRating(carData, currentUserRatingT, currentUserRatingD);
+                    Navigator.pushNamed(context, '5');},
+                      style: ButtonStyle(side: MaterialStateProperty.all(BorderSide() )),
+                      child: Text("Submit, Go Next", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),)),
+                )
               ],
             ),
           ),

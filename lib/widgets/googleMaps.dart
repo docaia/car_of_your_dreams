@@ -4,17 +4,22 @@ import 'package:google_maps/google_maps.dart';
 import 'dart:ui' as ui;
 
 class GoogleMap extends StatelessWidget {
+  final num? latitude;
+  final num? longitude;
+  String htmNum;
+  String mechName;
+  GoogleMap(this.latitude, this.longitude, this.htmNum, this.mechName);
     @override
   Widget build(BuildContext context) {
-    String htmlId = "7";
+    String htmlId = htmNum;
 
     // ignore: undefined_prefixed_name
     ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
-      final myLatlng = LatLng(30.1546430, 31.6187200);
+      final myLatlng = LatLng(latitude,longitude); //30.1546430, 31.6187200
 
       final mapOptions = MapOptions()
         ..zoom = 10
-        ..center = LatLng(30.1546430, 31.6187200);
+        ..center = LatLng(latitude, longitude);
 
       final elem = DivElement()
         ..id = htmlId
@@ -24,12 +29,20 @@ class GoogleMap extends StatelessWidget {
 
       final map = GMap(elem, mapOptions);
 
-      Marker(MarkerOptions()
+     final marker=Marker(MarkerOptions()
         ..position = myLatlng
         ..map = map
-        ..title = 'Hello World!'
-        ..label = 'Fathy Tito'
+        ..title = 'This is the location of the mechanic'
+        ..label = '$mechName'
       );
+marker.onClick.listen((e) {
+ // window.alert("Map was clicked!");
+  window.open("https://maps.google.com/?q=$latitude,$longitude",'location of $mechName');
+})
+
+
+
+;
 
       return elem;
     });

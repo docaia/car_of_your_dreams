@@ -3,10 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 TextStyle kStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.w900);
 TextStyle kButtonStyle = TextStyle(backgroundColor: Colors.blueAccent, color: Colors.white);
-TextStyle kTextStyleLoginScreen = GoogleFonts.romanesco(
+TextStyle kTextStyleLoginScreen = GoogleFonts.raleway(
     textStyle: TextStyle(fontSize: 40,
-        color: Color(0xFF042A16),
-        fontWeight: FontWeight.w100,
+        color: Color(0xFF5C231F),
+        fontWeight: FontWeight.w500,
         decoration: TextDecoration.none));
 
 const kMessageContainerDecoration = BoxDecoration(
@@ -30,6 +30,9 @@ InputDecoration kMessageTextFieldDecorationForm(textDescription) {
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
   hintText: textDescription,
   border: OutlineInputBorder(),
+    focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color:Colors.white, width: 2)
+    ),
 );
   }
 TextStyle kCriteriaListStyle = GoogleFonts.ubuntu(textStyle: TextStyle(

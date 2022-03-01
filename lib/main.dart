@@ -15,6 +15,7 @@ import 'package:car_of_your_dreams/Screens/Criteria_Screen.dart';
 import 'package:car_of_your_dreams/Screens/Location_Screen.dart';
 import 'package:car_of_your_dreams/Screens/LoginScreen.dart';
 import 'package:car_of_your_dreams/Screens/SignUp_Screen.dart';
+import 'package:car_of_your_dreams/Screens/VisionAndMissionScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +62,8 @@ class MyApp extends StatelessWidget {
             '4': (context)=> ShowLocation(),
             '5': (context)=> UserInputScreen(issueDescribe: "What is the worst Problem", toScreenNum:'6', rightButtonText: 'Submit, Go Next', goodOrBadList: Provider.of<CarsProvider>(context, listen: false).problemsList, selectedIssue: Provider.of<CarsProvider>(context,listen: false).selectedIssueBad!,),
             '6': (context)=> UserInputGood(issueDescribe: "What is the best thing in this car", toScreenNum:'7', rightButtonText: 'Submit, Go Next', goodOrBadList: Provider.of<CarsProvider>(context, listen: false).advantagesList, selectedIssue: Provider.of<CarsProvider>(context,listen: false).selectedIssueGood!),
-            '7': (context)=> BestMechanicScreen(issueDescribe: "Who is the best mechanic for this car", toScreenNum:'1', rightButtonText: 'Finish', goodOrBadList: [],)
+            '7': (context)=> BestMechanicScreen(issueDescribe: "Who is the best mechanic for this car", toScreenNum:'1', rightButtonText: 'Finish', goodOrBadList: [],),
+          'visionAndMission':(context)=> VandM()
           },
           theme: ThemeData(
             cupertinoOverrideTheme: CupertinoThemeData( // <---------- this

@@ -18,12 +18,9 @@ class CarsProvider extends ChangeNotifier {
   //put here the main variables and the car list
 String communityRating = "Choose";
 String? bestCars;
-String mech ="";
 String? userEmail;
 String? userPassword;
 String name="user";
-String mechPhone="";
-String mechLocation="";
 int? itemNum = 0;
 bool questionMarkVisibility = false;
 bool questionFamilyVisibility = false;
@@ -77,12 +74,12 @@ List<String> goodCars = [];
   int model = 0;
   Text currentCarManufacturer = Text('Toyota');
   Text myYear = Text('2022');
-  Text myModel = Text('Camry');
+  Text myModel = Text('Belta');
   String? userFeedback;
-  List<Text> models = [ Text('Camry', style: kStyle,),
+  List<Text> models = [ Text('Belta', style: kStyle,),
     Text('Corolla', style: kStyle,),
-    Text('Yaris', style: kStyle,),
-    Text('Runner', style: kStyle,)];
+    Text('Camry', style: kStyle,),
+    Text('4 Runner', style: kStyle,)];
   bool star1IsChecked = false;
   bool star2IsChecked = false;
   bool star3IsChecked = false;
@@ -99,10 +96,9 @@ bool criteriaVisibility = false;
 bool criteriaVisibilityAgencies = false;
 bool depVisibility = false;
 bool famVisibility = false;
-
-  List<Manufacturers> manufacturers =
+ List<Manufacturers> manufacturers =
   [
-Manufacturers('Toyota', mToyota),Manufacturers('JEEP', mJEEP), Manufacturers('KIA', mKIA), Manufacturers('FIAT', mFIAT), Manufacturers('Hyundai', mHyundai), Manufacturers('Mercedes', mMercedes),Manufacturers('BMW', mBMW), Manufacturers('SEAT', mSEAT), Manufacturers('VolksWagen', mVolksWagen),Manufacturers('Peugeot', mPeugeot), Manufacturers('Nissan', mNissan), Manufacturers('Suzuki', mSuzuki),
+Manufacturers('Toyota', mToyota),Manufacturers('JEEP', mJEEP), Manufacturers('KIA', mKIA), Manufacturers('FIAT', mFIAT), Manufacturers('Honda', mHonda), Manufacturers('Hyundai', mHyundai), Manufacturers('Mercedes', mMercedes),Manufacturers('BMW', mBMW), Manufacturers('SEAT', mSEAT), Manufacturers('VolksWagen', mVolksWagen),Manufacturers('Peugeot', mPeugeot), Manufacturers('Nissan', mNissan), Manufacturers('Suzuki', mSuzuki),
   ];
 List<Text> manuf(){
   List<Text> hh=[];

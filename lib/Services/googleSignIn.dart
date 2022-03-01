@@ -10,6 +10,7 @@ final googleSignIn = GoogleSignIn(
 );
 GoogleSignInAccount? user;
 String? nameOfCurrentUser;
+String? emailOfCurrentUser;
 
 Future<GoogleSignInAccount?> googleLogin() async {
 try{
