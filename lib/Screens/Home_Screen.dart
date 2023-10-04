@@ -45,6 +45,20 @@ class HomeScreen extends StatelessWidget {
                 ),
               )
             ),
+            // Expanded(
+            //   flex:1,
+            //   child: Padding(
+            //     padding: const EdgeInsets.fromLTRB(0,0,20,0),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.end,
+            //       children: <Widget>[
+            //         ElevatedButton(onPressed: (){Navigator.pushNamed(context, 'visionAndMission');},
+            //             style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.white) ),
+            //             child: Text("Our Vision and Mission", style:TextStyle(color: Colors.black))),
+            //       ]
+            //     ),
+            //   ),
+            // ),
             Expanded(
               flex: 3,
               child: Column(
@@ -55,10 +69,10 @@ class HomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
                     ),),
-                    FlatButton(
+                    ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '4');
-                      }, color: Colors.greenAccent,
+                      }, style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.greenAccent) ),
                       child: Text("Car Details", style: TextStyle(
                           color: Color(0xFF0E0859),
                           fontWeight: FontWeight.w900,
@@ -73,11 +87,12 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
-                    child: FlatButton(onPressed: () {
+                    child: ElevatedButton(onPressed: () {
 
                       Navigator.pushNamed(context, '2');
 
-                    }, color: Colors.blueAccent,
+                    }, style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.blueAccent) ),
+
                       child: Text("Rate your own cars", style: TextStyle(
                           color: Color(0xFF0E0859),
                           fontWeight: FontWeight.w900,
@@ -94,10 +109,11 @@ color: Colors.white,
 fontWeight: FontWeight.w700,
 fontSize: 15,
 ),),
-FlatButton(onPressed: () {
+ElevatedButton(onPressed: () {
 Navigator.pushNamed(context, '3');
 },
-color: Colors.amber[400],
+  style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.amber[400]!) ),
+
 child: Text('Choose your criteria', style: TextStyle(
 color: Color(0xFF0E0859),
 fontWeight: FontWeight.w900,

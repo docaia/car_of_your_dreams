@@ -20,9 +20,11 @@ class CriteriaScreen extends StatelessWidget {
     return Material(
       child: Scaffold(
         backgroundColor: Colors.amber,
-        body:  Scrollbar(
+        body:  RawScrollbar(
           isAlwaysShown: true,
-          showTrackOnHover: true,
+          radius: Radius.circular(60),
+          thickness: 15,
+          thumbColor: Colors.white,
           child: ListView(
               children: <Widget>[
                 Padding(
@@ -54,35 +56,30 @@ class CriteriaScreen extends StatelessWidget {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 45, left: 550),
-                        child: Visibility(
-                            visible: Provider.of<CarsProvider>(context, listen: true).questionMarkVisibility,
-                            child: Text('Cars with long live for spare parts, no problems, just start and drive!')),
-                      ),
-                    ),
+
                     Align(
                       alignment: Alignment.center,
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.1 ,
-                        width: MediaQuery.of(context).size.width * 0.15 ,
+                        width: MediaQuery.of(context).size.width * 0.5 ,
                         child: Stack(
 clipBehavior: Clip.none,
                           alignment: AlignmentDirectional.center,
                           children: <Widget>[
-                            ElevatedButton(onPressed: () async{
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.5 ,
+                              child: ElevatedButton(onPressed: () async{
                       List bestDepies = await MySQL().selectBestDependables();
                       Provider.of<CarsProvider>(context,listen: false).bestDepList = await MySQL().selectBestDependables();
                       Provider.of<CarsProvider>(context,listen: false).getBestdep(context);
                       },
-                                style: ElevatedButton.styleFrom(
-                                   side:BorderSide(),
-                                  fixedSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.1 ),
-                                )
-                                ,
-                                child: Text('Dependability')),
+                                  style: ElevatedButton.styleFrom(
+                                     side:BorderSide(),
+                                    fixedSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.1 ),
+                                  )
+                                  ,
+                                  child: Text('Dependability')),
+                            ),
                             HoverButton(visibility:Provider.of<CarsProvider>(context,listen: false).visibilityChanger,
                             SQLFetch: MySQL().selectBestDependables,
                                 fetchedList: Provider.of<CarsProvider>(context,listen: false).bestDepList,
@@ -92,6 +89,16 @@ clipBehavior: Clip.none,
                                 child: Icon(Icons.car_repair, size:30, color: Colors.blueGrey))
                           ]
                         ),
+                      ),
+                    ),
+
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 45, left: 550),
+                        child: Visibility(
+                            visible: Provider.of<CarsProvider>(context, listen: true).questionMarkVisibility,
+                            child: Text('Cars with long live for spare parts, no problems, just start and drive!')),
                       ),
                     ),
 
@@ -125,7 +132,7 @@ clipBehavior: Clip.none,
                                         text: ' ${Provider
                                             .of<CarsProvider>(context, listen: true)
                                             .bestDepList[index].Man}',
-                                        style: GoogleFonts.eastSeaDokdo(textStyle: TextStyle(
+                                        style: GoogleFonts.alef(textStyle: TextStyle(
                                             fontSize: 30,
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500)),
@@ -168,35 +175,30 @@ clipBehavior: Clip.none,
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 45, left: 550),
-                        child: Visibility(
-                            visible: Provider.of<CarsProvider>(context, listen: true).questionFamilyVisibility,
-                            child: Text('Best for family, big storage space, comfortable and durable cars')),
-                      ),
-                    ),
+
                     Align(
                       alignment: Alignment.center,
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.1 ,
-                        width: MediaQuery.of(context).size.width * 0.15 ,
+                        width: MediaQuery.of(context).size.width * 0.5 ,
                         child: Stack(
-                            clipBehavior: Clip.none,
+                            clipBehavior: Clip.hardEdge,
                             alignment: AlignmentDirectional.center,
                             children: <Widget>[
-                              ElevatedButton(onPressed: () async{
+                              Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                                child: ElevatedButton(onPressed: () async{
 
-                                Provider.of<CarsProvider>(context,listen: false).bestFamList = await MySQL().getFamilyCars();
-                                Provider.of<CarsProvider>(context,listen: false).getBestfam(context);
-                              },
-                                  style: ElevatedButton.styleFrom(
-                                    side:BorderSide(),
-                                    fixedSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.1 ),
-                                  )
-                                  ,
-                                  child: Text('      Family      ')),
+                                  Provider.of<CarsProvider>(context,listen: false).bestFamList = await MySQL().getFamilyCars();
+                                  Provider.of<CarsProvider>(context,listen: false).getBestfam(context);
+                                },
+                                    style: ElevatedButton.styleFrom(
+                                      side:BorderSide(),
+                                      fixedSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.1 ),
+                                    )
+                                    ,
+                                    child: Text('Family')),
+                              ),
                               HoverButton(visibility:Provider.of<CarsProvider>(context,listen: false).visibilityFamilyChanger,
                                   SQLFetch: MySQL().getFamilyCars,
                                   fetchedList: Provider.of<CarsProvider>(context,listen: false).bestFamList,
@@ -206,6 +208,15 @@ clipBehavior: Clip.none,
                                   child: Icon(Icons.family_restroom_outlined, size:30, color: Colors.blueGrey))
                             ]
                         ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 45, left: 550),
+                        child: Visibility(
+                            visible: Provider.of<CarsProvider>(context, listen: true).questionFamilyVisibility,
+                            child: Text('Best for family, big storage space, comfortable and durable cars')),
                       ),
                     ),
 
@@ -305,7 +316,7 @@ clipBehavior: Clip.none,
      alignment: Alignment.center,
      child: Container(
        height: MediaQuery.of(context).size.height * 0.1 ,
-       width: MediaQuery.of(context).size.width * 0.12 ,
+       width: MediaQuery.of(context).size.width * 0.5 ,
        child: ElevatedButton(onPressed: () async{
          List bestCars = await MySQL().selectBestCars();
          Provider.of<CarsProvider>(context, listen: false).bestCarsList = await MySQL().selectBestCars();
@@ -414,7 +425,7 @@ clipBehavior: Clip.none,
                   alignment: Alignment.center,
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.1 ,
-                    width: MediaQuery.of(context).size.width * 0.12 ,
+                    width: MediaQuery.of(context).size.width * 0.5 ,
                     child: ElevatedButton(onPressed: () async{
                       List bestAgencies = await MySQL().selectBestAgencies();
                       Provider.of<CarsProvider>(context, listen: false).bestAgenciesList = await MySQL().selectBestAgencies();
@@ -463,7 +474,7 @@ clipBehavior: Clip.none,
                                         text: ' ${Provider
                                             .of<CarsProvider>(context, listen: true)
                                             .bestAgenciesList[index].Man}',
-                                        style: GoogleFonts.eastSeaDokdo(textStyle: TextStyle(
+                                        style: GoogleFonts.alef(textStyle: TextStyle(
                                             fontSize: 30,
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500)),

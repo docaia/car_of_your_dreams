@@ -407,78 +407,81 @@ RichText(text: TextSpan(text: 'Agency: ', style: GoogleFonts.lato(textStyle:Text
  //      ]),
  //  ),
 
-  Scrollbar(
-    isAlwaysShown: true,
-    controller: _controller2,
-    child: SingleChildScrollView(
+  Padding(
+    padding: const EdgeInsets.fromLTRB(0,0,0,10),
+    child: Scrollbar(
+      isAlwaysShown: true,
       controller: _controller2,
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-          columns: [
-              DataColumn(label: Text(
-                  'Name',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-              )),
-              DataColumn(label: Text(
-                  'Workshop',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-              )),
-              DataColumn(label: Text(
-                  'Phone',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-              )),
-              DataColumn(label: Text(
-                  'Phone2',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-              )),
-              DataColumn(label: Text(
-                  'Specialty',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-              )),
-              DataColumn(label: Text(
-                  'Location',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-              )),
-              DataColumn(label: Text(
-                  'Map',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-              )),
+      child: SingleChildScrollView(
+        controller: _controller2,
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+            columns: [
+                DataColumn(label: Text(
+                    'Name',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                )),
+                DataColumn(label: Text(
+                    'Workshop',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                )),
+                DataColumn(label: Text(
+                    'Phone',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                )),
+                DataColumn(label: Text(
+                    'Phone2',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                )),
+                DataColumn(label: Text(
+                    'Specialty',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                )),
+                DataColumn(label: Text(
+                    'Location',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                )),
+                DataColumn(label: Text(
+                    'Map',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                )),
 
-          ],
-          rows: [
-              DataRow(cells: [
-                DataCell(Text(' $firstMechanicName')),
-                DataCell(Text('$firstMechanicWorkshop')),
-                DataCell(Text('$firstMechanicPhone')),
-                DataCell(Text('$firstMechanicPhone2')),
-                DataCell(Text('$firstSpecialty')),
-                DataCell(Text('$firstMechanicLocation')),
-                DataCell(ElevatedButton( onPressed: () {
-                  setState(() {
-                    firstMapViz = true;
-                    secondMapViz = false;
-                  });
-                  _controller.jumpTo(_controller.position.maxScrollExtent);
+            ],
+            rows: [
+                DataRow(cells: [
+                  DataCell(Text(' $firstMechanicName')),
+                  DataCell(Text('$firstMechanicWorkshop')),
+                  DataCell(Text('$firstMechanicPhone')),
+                  DataCell(Text('$firstMechanicPhone2')),
+                  DataCell(Text('$firstSpecialty')),
+                  DataCell(Text('$firstMechanicLocation')),
+                  DataCell(ElevatedButton( onPressed: () {
+                    setState(() {
+                      firstMapViz = true;
+                      secondMapViz = false;
+                    });
+                    _controller.jumpTo(_controller.position.maxScrollExtent);
+                    },
+                      child:Text('location on map'))),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text(' $secondMechanicName')),
+                  DataCell(Text('$secondMechanicWorkshop')),
+                  DataCell(Text('$secondMechanicPhone')),
+                  DataCell(Text('$secondMechanicPhone2')),
+                  DataCell(Text('$secondSpecialty')),
+                  DataCell(Text('$secondMechanicLocation')),
+                  DataCell(ElevatedButton( onPressed: () {
+                    setState(() {
+                      firstMapViz = false;
+                      secondMapViz = true;
+                    });
+                    _controller.jumpTo(_controller.position.maxScrollExtent);
                   },
-                    child:Text('location on map'))),
-              ]),
-              DataRow(cells: [
-                DataCell(Text(' $secondMechanicName')),
-                DataCell(Text('$secondMechanicWorkshop')),
-                DataCell(Text('$secondMechanicPhone')),
-                DataCell(Text('$secondMechanicPhone2')),
-                DataCell(Text('$secondSpecialty')),
-                DataCell(Text('$secondMechanicLocation')),
-                DataCell(ElevatedButton( onPressed: () {
-                  setState(() {
-                    firstMapViz = false;
-                    secondMapViz = true;
-                  });
-                  _controller.jumpTo(_controller.position.maxScrollExtent);
-                },
-                    child:Text('location on map'))),
-              ]),
-          ]
+                      child:Text('location on map'))),
+                ]),
+            ]
+        ),
       ),
     ),
   ),

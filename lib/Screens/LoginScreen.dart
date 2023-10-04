@@ -105,7 +105,7 @@ else return Container(
               Align(alignment: Alignment.centerLeft,child: WelcomeText('best car agencies,')),
               Align(alignment: Alignment.centerLeft,child: WelcomeText('and more..')),
               SizedBox(height: 100,),
-              Text('Welcome to Car Treasure', style: GoogleFonts.sourceSansPro(
+              Text('Welcome to Car Treasure', style: GoogleFonts.sourceSans3(
                   textStyle: TextStyle(fontSize: 35,
                       color: Color(0xFF2A0413),
                       fontWeight: FontWeight.w500,

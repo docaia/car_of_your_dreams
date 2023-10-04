@@ -150,7 +150,7 @@ print(carData.itemNum);
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: StarButton(starColor: carData.star1IsChecked
                             ? Colors.black
                             : Color(0xFFFFFACD), starLabel: "1",),
@@ -164,7 +164,7 @@ print(carData.itemNum);
                       )),
                   //
                   Expanded(
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: StarButton(starColor: carData.star2IsChecked
                             ? Colors.black
                             : Color(0xFFF5EDA1), starLabel: "2",),
@@ -177,7 +177,7 @@ print(carData.itemNum);
                         },
                       )),
                   Expanded(
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: StarButton(starColor: carData.star3IsChecked
                             ? Colors.black
                             : Color(0xFFF8E76A), starLabel: "3",),
@@ -191,7 +191,7 @@ carData.falseAll();
                         },
                       )),
                   Expanded(
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: StarButton(starColor: carData.star4IsChecked
                             ? Colors.black
                             : Color(0xFFFFDF00), starLabel: "4",),
@@ -202,7 +202,7 @@ carData.falseAll();
                           carData.star4IsChecked = carData.myToggle.isChecked;
                         },
                       )),
-                  Expanded(child: FlatButton(
+                  Expanded(child: ElevatedButton(
                     child: StarButton(starColor: carData.star5IsChecked ? Colors
                         .black : Color(0xFFFFFF00), starLabel: "5",),
                     onPressed: () {
@@ -249,7 +249,7 @@ carData.falseAll();
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: StarButton(starColor: carData.dep1IsChecked
                             ? Colors.black
                             : Color(0xFFFFFACD), starLabel: "1",),
@@ -263,7 +263,7 @@ carData.falseAllD();
                       )),
                   //
                   Expanded(
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: StarButton(starColor: carData.dep2IsChecked
                             ? Colors.black
                             : Color(0xFFF5EDA1), starLabel: "2",),
@@ -275,7 +275,7 @@ carData.falseAllD();
                         },
                       )),
                   Expanded(
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: StarButton(starColor: carData.dep3IsChecked
                             ? Colors.black
                             : Color(0xFFF8E76A), starLabel: "3",),
@@ -287,7 +287,7 @@ carData.falseAllD();
                         },
                       )),
                   Expanded(
-                      child: FlatButton(
+                      child: ElevatedButton(
                         child: StarButton(starColor: carData.dep4IsChecked
                             ? Colors.black
                             : Color(0xFFFFDF00), starLabel: "4",),
@@ -298,7 +298,7 @@ carData.falseAllD();
                           carData.dep4IsChecked = carData.myToggleDependability.isChecked;
                         },
                       )),
-                  Expanded(child: FlatButton(
+                  Expanded(child: ElevatedButton(
                     child: StarButton(starColor: carData.dep5IsChecked ? Colors
                         .black : Color(0xFFFFFF00), starLabel: "5",),
                     onPressed: () {
