@@ -39,3 +39,5 @@ TextStyle kCriteriaListStyle = GoogleFonts.ubuntu(textStyle: TextStyle(
     fontSize: 25,
     color: Colors.white70,
     fontWeight: FontWeight.w400));
+
+TextStyle kTabla = TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: Colors.blue[900]);

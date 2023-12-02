@@ -17,6 +17,7 @@ import 'package:car_of_your_dreams/Services/carModelsLists.dart';
 import 'package:rive/rive.dart';
 import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MechanicRating extends StatefulWidget {
   @override
@@ -57,7 +58,9 @@ class _BestMechanicScreenState extends State<MechanicRating> {
   bool firstMapViz = false;
   bool secondMapViz = false;
   late List<Manufacturers> cars;
+  int mRate=3;
   Db db = Db();
+  LatLng latlongScreen=LatLng(30.037045, 31.247992);
   @override
   void initState() {
     // TODO: implement initState
@@ -97,15 +100,23 @@ class _BestMechanicScreenState extends State<MechanicRating> {
                     Container( decoration: BoxDecoration(color: Colors.blueAccent),
                       child: Padding(
                         padding: const EdgeInsets.only(right:16, top:8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                        child: Stack(
                           children: [
-                            ElevatedButton(onPressed:(){
+                            Container(
+                                width: MediaQuery.of(context).size.width*0.2,
+                                height: MediaQuery.of(context).size.height*0.1,
+                                child: Image.asset('Images/CarKenz4.gif')),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ElevatedButton(onPressed:(){
 
-                              Navigator.pushNamed(context, '1');
-                            },
-                                style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.lightBlueAccent) ),
-                                child: Text("شوف النتائج")),
+                                  Navigator.pushNamed(context, '1');
+                                },
+                                    style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.lightBlueAccent) ),
+                                    child: Text(" شوف إحصائيات أكثر (تجريبي)")),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -178,92 +189,89 @@ class _BestMechanicScreenState extends State<MechanicRating> {
                           Text('العربيه', style: TextStyle(fontWeight: FontWeight.w900)),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(50,0,10,0),
-                            child: Expanded(
-                              flex: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,50,0),
-                                child: Row(children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: DropdownButton<Manufacturers>(
-                                        value: dropdownValue,
-                                        hint:Text('الصانع', style: TextStyle(fontWeight: FontWeight.w700)),
-                                        icon: Icon(Icons.precision_manufacturing_outlined),
-                                        style:TextStyle(color: Colors.black) ,
-                                        onChanged: (Manufacturers? newValue) {
-                                          setState(() {
-                                            dropdownValue = newValue;
-                                            selectedManu = dropdownValue;
-                                            dropdownModel = null;
-                                            modelsforManu= selectedManu?.models;
-                                            isVisible = false;
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0,0,50,0),
+                              child: Row(children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: DropdownButton<Manufacturers>(
+                                      value: dropdownValue,
+                                      hint:Text('الصانع', style: TextStyle(fontWeight: FontWeight.w700)),
+                                      icon: Icon(Icons.precision_manufacturing_outlined),
+                                      style:TextStyle(color: Colors.black) ,
+                                      onChanged: (Manufacturers? newValue) {
+                                        setState(() {
+                                          dropdownValue = newValue;
+                                          selectedManu = dropdownValue;
+                                          dropdownModel = null;
+                                          modelsforManu= selectedManu?.models;
+                                          isVisible = false;
 
-                                          });
-                                        },
-                                        items: cars.map((Manufacturers item){
-                                          return DropdownMenuItem<Manufacturers>(
-                                            value: item,
-                                            child: Container(
-                                                color: Colors.blue[300],
-                                                child: Text(item.name)),
-                                          );
-                                        }
-                                        ).toList()
-                                    ),
+                                        });
+                                      },
+                                      items: cars.map((Manufacturers item){
+                                        return DropdownMenuItem<Manufacturers>(
+                                          value: item,
+                                          child: Container(
+                                              color: Colors.blue[300],
+                                              child: Text(item.name)),
+                                        );
+                                      }
+                                      ).toList()
                                   ),
+                                ),
 
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: DropdownButton<CarModel>(
-                                        value: dropdownModel,
-                                        hint:Text('الطراز', style: TextStyle(fontWeight: FontWeight.w700)),
-                                        icon: Icon(Icons.category),
-                                        style:TextStyle(color: Colors.black) ,
-                                        onChanged: (CarModel? newValue) {
-                                          setState(() {
-                                            dropdownModel = newValue;
-                                            isVisible = false;
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: DropdownButton<CarModel>(
+                                      value: dropdownModel,
+                                      hint:Text('الطراز', style: TextStyle(fontWeight: FontWeight.w700)),
+                                      icon: Icon(Icons.category),
+                                      style:TextStyle(color: Colors.black) ,
+                                      onChanged: (CarModel? newValue) {
+                                        setState(() {
+                                          dropdownModel = newValue;
+                                          isVisible = false;
 
-                                          });
-                                        },
-                                        items: modelsforManu?.map((CarModel item){
-                                          return DropdownMenuItem<CarModel>(
-                                            value: item,
-                                            child: Container(
-                                                color: Colors.blue[300],
-                                                child: Text(item.name)),
-                                          );
-                                        }
-                                        ).toList()
-                                    ),
+                                        });
+                                      },
+                                      items: modelsforManu?.map((CarModel item){
+                                        return DropdownMenuItem<CarModel>(
+                                          value: item,
+                                          child: Container(
+                                              color: Colors.blue[300],
+                                              child: Text(item.name)),
+                                        );
+                                      }
+                                      ).toList()
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: DropdownButton<String>(
-                                        value: dropdownYear,
-                                        hint:Text('السنه', style: TextStyle(fontWeight: FontWeight.w700)),
-                                        icon: Icon(Icons.timer),
-                                        style:TextStyle(color: Colors.black) ,
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropdownYear = newValue;
-                                            isVisible = false;
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: DropdownButton<String>(
+                                      value: dropdownYear,
+                                      hint:Text('السنه', style: TextStyle(fontWeight: FontWeight.w700)),
+                                      icon: Icon(Icons.timer),
+                                      style:TextStyle(color: Colors.black) ,
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropdownYear = newValue;
+                                          isVisible = false;
 
-                                          });
-                                        },
-                                        items: years.map((String item){
-                                          return DropdownMenuItem<String>(
-                                            value: item,
-                                            child: Container(
-                                                color: Colors.blue[300],
-                                                child: Text(item)),
-                                          );
-                                        }
-                                        ).toList()
-                                    ),
+                                        });
+                                      },
+                                      items: years.map((String item){
+                                        return DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Container(
+                                              color: Colors.blue[300],
+                                              child: Text(item)),
+                                        );
+                                      }
+                                      ).toList()
                                   ),
-                                ],),
-                              ),
+                                ),
+                              ],),
                             ),
                           ),
                         ],
@@ -280,7 +288,7 @@ class _BestMechanicScreenState extends State<MechanicRating> {
                                 mapViz = true;
                                 lati = loc.latitude;
                                 longi = loc.longitude;
-
+                                latlongScreen = LatLng(lati!.toDouble(),longi!.toDouble());
                               });
 
                               print(loc);
@@ -294,106 +302,133 @@ class _BestMechanicScreenState extends State<MechanicRating> {
                       child: Container(
                           height: 300,
                           width: MediaQuery.of(context).size.width * 0.9,
-                          child:FlutterLocationPicker(
-                              initPosition: LatLong(lati!.toDouble(), longi!.toDouble()),
-                              initZoom: 11,
-                              minZoomLevel: 5,
-                              maxZoomLevel: 16,
-                              trackMyPosition: true,
-                              onPicked: (pickedData) {
-                                print(pickedData.latLong.latitude);
-                                print(pickedData.latLong.longitude);
-                                print(pickedData.address);
-                                print(pickedData.addressData['country']);
-                                setState(() {
-                                  Timer(Duration(milliseconds: 3000),(){
-                                    mapViz = false;
-                                  });
-                                });
+                          child:
+                          GoogleMap(
+                            mapType: MapType.hybrid,
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(lati!.toDouble(), longi!.toDouble()),
+                              zoom: 14.4746,
+                            ),
+                            onMapCreated: (GoogleMapController controller) {
+                              controller.getScreenCoordinate(latlongScreen);
+                              print(latlongScreen);
+                              mapViz=true;
+                            },
+                            markers: {
+                              Marker(markerId: MarkerId('${mechanicName}'),
+                                  draggable: true,
+                              position: LatLng(lati!.toDouble(),longi!.toDouble()),
+                                onDrag: (markerLocation){
+                                latlongScreen = markerLocation;
+                                print(latlongScreen);
+                                }
 
-                              })
+
+                                
+                              )
+                            }
+                          ),
+                          //FlutterLocationPicker(
+                          //     initPosition: LatLong(lati!.toDouble(), longi!.toDouble()),
+                          //     initZoom: 11,
+                          //     minZoomLevel: 5,
+                          //     maxZoomLevel: 16,
+                          //     trackMyPosition: true,
+                          //     onPicked: (pickedData) {
+                          //       print(pickedData.latLong.latitude);
+                          //       print(pickedData.latLong.longitude);
+                          //       print(pickedData.address);
+                          //       print(pickedData.addressData['country']);
+                          //       setState(() {
+                          //         Timer(Duration(milliseconds: 3000),(){
+                          //           mapViz = false;
+                          //         });
+                          //       });
+  //}
+                              )
                         //GoogleMap(lati,longi,"7", "Location you captured")
                       ),
-                    ),
-          RatingBar.builder(
-              initialRating: 1,
-              itemCount: 5,
-              itemSize: 50,
-              unratedColor: Colors.blueAccent,
-              itemPadding: EdgeInsets.symmetric(horizontal: 10),
-              itemBuilder: (context, index) {
-                switch (index) {
-                  case 0:
-                    return Image.asset(
-                      '/Images/heart1.png'
-                    );
-                  case 1:
-                    return Image.asset(
-                        '/Images/heart2.png'
-                    );
-                  case 2:
-                    return Image.asset(
-                        '/Images/heart3.png'
-                    );
-                  case 3:
-                    return Image.asset(
-                        '/Images/heart4.png'
-                    );
-                  case 4:
-                    return Image.asset(
-                        '/Images/heart5.png'
-                    );
-                } return Container();
-              },
-              onRatingUpdate: (rating) {
-                print(rating);
-              },
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(50,0,10,0),
+            child: Row(
+              children: [
+                Text('إيه رأيك؟', style: TextStyle(fontWeight: FontWeight.w900)),
+                RatingBar.builder(
+                    initialRating: 1,
+                    itemCount: 5,
+                    itemSize: 50,
+                    unratedColor: Colors.blueAccent,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 10),
+                    itemBuilder: (context, index) {
+                      switch (index) {
+                        case 0:
+                          return Image.asset(
+                            '/Images/heart1.png'
+                          );
+                        case 1:
+                          return Image.asset(
+                              '/Images/heart2.png'
+                          );
+                        case 2:
+                          return Image.asset(
+                              '/Images/heart3.png'
+                          );
+                        case 3:
+                          return Image.asset(
+                              '/Images/heart4.png'
+                          );
+                        case 4:
+                          return Image.asset(
+                              '/Images/heart5.png'
+                          );
+                      } return Container();
+                    },
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                      mRate = rating.toInt();
+                    },
+                ),
+              ],
+            ),
           ),
                     Container(
 
                       decoration: BoxDecoration(color: Colors.blueAccent),
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children:<Widget> [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8.0,0,0,8),
-                              child: TextButton(onPressed: (){
-                                Navigator.pushNamed(context, widget.toScreenNum!);
-                              },
-                                  style: ButtonStyle(side: MaterialStateProperty.all(BorderSide() )),
-                                  child: Text("Skip", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),)),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.fromLTRB(8.0,0,0,8),
+                            //   child: TextButton(onPressed: (){
+                            //     Navigator.pushNamed(context, 'mechResults');
+                            //   },
+                            //       style: ButtonStyle(side: MaterialStateProperty.all(BorderSide() )),
+                            //       child: Text("قائمة الأفضل", style: GoogleFonts.aBeeZee(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),)),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0,0,8,8),
                               child: TextButton(onPressed: ()async{
-
+Provider.of<CarsProvider>(context,listen: false).topMechs= await MySQL().getTopMechanics();
                                 if(isMechanic == true && isElectric == true && isCarBodyFix==true){specialty ="Mechanic, Electrician, Samkary";}
                                 else if(isMechanic == true && isElectric==true){specialty ="Mechanic, Electrician";}
                                 else if(isMechanic == true ){specialty ="Mechanic";}
                                 else if(isElectric == true){specialty ="Electrician";}
                                 else if(isCarBodyFix == true){specialty ="Samkary";}
                                 print(specialty);
-                                Navigator.pushNamed(context, widget.toScreenNum!);
+                                Navigator.pushNamed(context, 'mechResults');
                                 var mechSend = await MySQL().mechanicInfo(
                                   mechanicName!.toUpperCase(),
                                   workshopName!,
                                   mechanicPhone!,
                                   mechanicLocation!.toUpperCase(),
-                                  Provider
-                                      .of<CarsProvider>(context, listen: false)
-                                      .currentCarManufacturer
-                                      .data!,
-                                  Provider
-                                      .of<CarsProvider>(context, listen: false)
-                                      .myModel
-                                      .data!,
-                                  Provider
-                                      .of<CarsProvider>(context, listen: false)
-                                      .myYear
-                                      .data!,
+                                  selectedManu!.name,
+                                  dropdownModel.name,
+                                  dropdownYear,
                                   specialty!,
-                                  lati!.toString(),
-                                  longi!.toString(),
+                                  latlongScreen.latitude.toString(),//lati!.toString(),
+                                  latlongScreen.latitude.toString(),//longi!.toString(),
+                                  mRate.toString(),
                                 );
                                 print(mechSend);
                                 print("mechanic is $mechanicName");

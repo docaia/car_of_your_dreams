@@ -1,6 +1,7 @@
 import 'package:car_of_your_dreams/widgets/StarRating_toggle.dart';
 import 'package:car_of_your_dreams/widgets/bestAgencies.dart';
 import 'package:car_of_your_dreams/widgets/bestDependability.dart';
+import 'package:car_of_your_dreams/widgets/topMechanics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:car_of_your_dreams/widgets/Constants.dart';
@@ -69,6 +70,13 @@ List<FamilyCars> bestFamList=[FamilyCars(Man: '', Model: '', year: '', Rate: '')
 ];
 List<String> goodCars = [];
   ////Read excel sheet!!///
+List<TopMechanics> topMechs =[
+  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
+  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
+  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
+  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
+  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
+];
 
 
   int model = 0;
@@ -108,6 +116,7 @@ List<Text> manuf(){
   return hh;
 }
   List<Text> year = [
+    Text('2023', style: kStyle,),
     Text('2022', style: kStyle,),
     Text('2021', style: kStyle,),
     Text('2020', style: kStyle,),

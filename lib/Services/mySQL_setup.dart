@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:car_of_your_dreams/widgets/bestDependability.dart';
+import 'package:car_of_your_dreams/widgets/topMechanics.dart';
 import 'package:http/http.dart' as http; // add the http plugin in pubspec.yaml file.
 import 'package:car_of_your_dreams/widgets/bestCars.dart';
 import 'package:car_of_your_dreams/widgets/bestAgencies.dart';
@@ -103,7 +104,7 @@ String existingRateTawkeel = data['Rating_Agency'];
   return zuzu;
 
   }
-  Future<dynamic> mechanicInfo(String mechName, String Workshop, String mechPhone, String mechLocation, String Make, String model, String year, String specialty, String lati, String longi){
+  Future<dynamic> mechanicInfo(String mechName, String Workshop, String mechPhone, String mechLocation, String Make, String model, String year, String specialty, String lati, String longi, String mRate){
     var mechInfo={
       "mechName": mechName,
       "workShop": Workshop,
@@ -114,7 +115,8 @@ String existingRateTawkeel = data['Rating_Agency'];
       "Year": year,
       "specialty": specialty,
       "latitude": lati,
-      "longitude": longi
+      "longitude": longi,
+      "mechanicRate": mRate,
     };
     var mechUrl ='https://carkenz.com/mechanic.php';
     var mechanicInsert = postRequest(mechUrl, mechInfo);
@@ -284,5 +286,22 @@ String existingRateTawkeel = data['Rating_Agency'];
     String feedBackFromGoogle= await postRequest(url, data);
     return feedBackFromGoogle;
 
+  }
+  Future<List<TopMechanics>> getTopMechanics() async{
+    var url = 'https://carkenz.com/selectTopMechanics.php';
+
+    http.Response response = await http.post(
+        Uri.parse(url), body: null);
+
+    if (response.statusCode == 200) {
+      List<dynamic> l = json.decode(response.body);
+      print(l);
+      List<TopMechanics> bestMechs = List<TopMechanics>.from(l.map((mecha)=> TopMechanics.fromJson(mecha)));
+      return bestMechs;//BestCars.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load the best mechanics, there seems to be an issue connecting to the server');
+    }
   }
 }

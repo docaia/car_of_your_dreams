@@ -15,14 +15,16 @@ class CriteriaScreen extends StatelessWidget {
 
   //QuerySnapshot? ggSnap;
 
-  
+  final meshmoqtane3 = ScrollController();
   Widget build(BuildContext context) {
     return Material(
       child: Scaffold(
         backgroundColor: Colors.amber,
         body:  RawScrollbar(
-          isAlwaysShown: true,
+          thumbVisibility: true,
           radius: Radius.circular(60),
+          scrollbarOrientation: ScrollbarOrientation.right,
+          controller: meshmoqtane3,
           thickness: 15,
           thumbColor: Colors.white,
           child: ListView(

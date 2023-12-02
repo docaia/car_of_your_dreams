@@ -20,6 +20,8 @@ import 'package:car_of_your_dreams/Screens/VisionAndMissionScreen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
+import 'Screens/resultsOfMechanicsScren.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   //await Firebase.initializeApp();
@@ -75,8 +77,9 @@ class MyApp extends StatelessWidget {
             '5': (context)=> UserInputScreen(issueDescribe: "What is the worst Problem", toScreenNum:'6', rightButtonText: 'Submit, Go Next', goodOrBadList: Provider.of<CarsProvider>(context, listen: false).problemsList, selectedIssue: Provider.of<CarsProvider>(context,listen: false).selectedIssueBad!,),
             '6': (context)=> UserInputGood(issueDescribe: "What is the best thing in this car", toScreenNum:'7', rightButtonText: 'Submit, Go Next', goodOrBadList: Provider.of<CarsProvider>(context, listen: false).advantagesList, selectedIssue: Provider.of<CarsProvider>(context,listen: false).selectedIssueGood!),
             '7': (context)=> BestMechanicScreen(issueDescribe: "Who is the best mechanic for this car", toScreenNum:'1', rightButtonText: 'Finish', goodOrBadList: [],),
-          'visionAndMission':(context)=> VandM(),
+            'visionAndMission':(context)=> VandM(),
             'hope': (context)=>MassVotingScreen(),
+            'mechResults':(context)=>ResultsMech(),
           },
           theme: ThemeData(
             cupertinoOverrideTheme: CupertinoThemeData( // <---------- this

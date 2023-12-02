@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:car_of_your_dreams/Services/change_notifier.dart';
@@ -41,6 +42,7 @@ class _BestMechanicScreenState extends State<BestMechanicScreen> {
   num? lati =0;
   num? longi= 0;
   bool mapViz = false;
+  int rateMech=3;
   Db db = Db();
 
   Widget build(BuildContext context) {
@@ -204,6 +206,49 @@ print(loc);
                   child:GoogleMap(lati,longi,"7", "Location you captured")
                 ),
               ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(50,0,10,0),
+          child: Row(
+            children: [
+              Text('Mechanic Rating', style: TextStyle(fontWeight: FontWeight.w900)),
+              RatingBar.builder(
+                initialRating: 1,
+                itemCount: 5,
+                itemSize: 50,
+                unratedColor: Colors.blue[300],
+                itemPadding: EdgeInsets.symmetric(horizontal: 10),
+                itemBuilder: (context, index) {
+                  switch (index) {
+                    case 0:
+                      return Image.asset(
+                          '/Images/heart1.png'
+                      );
+                    case 1:
+                      return Image.asset(
+                          '/Images/heart2.png'
+                      );
+                    case 2:
+                      return Image.asset(
+                          '/Images/heart3.png'
+                      );
+                    case 3:
+                      return Image.asset(
+                          '/Images/heart4.png'
+                      );
+                    case 4:
+                      return Image.asset(
+                          '/Images/heart5.png'
+                      );
+                  } return Container();
+                },
+                onRatingUpdate: (rating) {
+                  print(rating);
+                  rateMech = rating.toInt();
+                },
+              ),
+              ],
+          ),
+        ),
               Container(
 
                 decoration: BoxDecoration(color: Colors.blueAccent),
@@ -249,6 +294,7 @@ else if(isCarBodyFix == true){specialty ="Samkary";}
       specialty!,
     lati!.toString(),
     longi!.toString(),
+    rateMech!.toString(),
   );
   print(mechSend);
   print("mechanic is $mechanicName");
