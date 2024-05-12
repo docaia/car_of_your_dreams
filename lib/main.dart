@@ -1,8 +1,10 @@
 import 'dart:ui';
 import 'package:car_of_your_dreams/Screens/BestMechanicScreen.dart';
 import 'package:car_of_your_dreams/Screens/Car_Selection_Screen.dart';
+import 'package:car_of_your_dreams/Screens/FocusedMechanicScreen.dart';
 import 'package:car_of_your_dreams/Screens/HopeScreen.dart';
 import 'package:car_of_your_dreams/Screens/MechanicRatingArabic.dart';
+import 'package:car_of_your_dreams/Screens/WhatDoYouWantScreen.dart';
 import 'package:car_of_your_dreams/widgets/UserInputScreen.dart';
 import 'package:car_of_your_dreams/widgets/UserInputGood.dart';
 import 'package:car_of_your_dreams/Services/change_notifier.dart';
@@ -18,9 +20,11 @@ import 'package:car_of_your_dreams/Screens/LoginScreen.dart';
 import 'package:car_of_your_dreams/Screens/SignUp_Screen.dart';
 import 'package:car_of_your_dreams/Screens/VisionAndMissionScreen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-
 import 'Screens/resultsOfMechanicsScren.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
+import 'Services/translation_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,19 +48,12 @@ void main() {
   };
   // Here we would normally runApp() the root widget, but to demonstrate
   // the error handling we artificially fail:
-  if (kIsWeb) {
-    // initialiaze the facebook javascript SDK
-    FacebookAuth.i.webInitialize(
-      appId: "1329834907365798",//<-- YOUR APP_ID
-      cookie: true,
-      xfbml: true,
-      version: "v12.0",
-    );
-  }
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -64,9 +61,25 @@ class MyApp extends StatelessWidget {
           ListenableProvider<CarsProvider>(create: (_) => CarsProvider()),
           ListenableProvider<GoogleSignInAPI>(create: (_) => GoogleSignInAPI()),
                   ],
-        child: MaterialApp(
+        child: GetMaterialApp(
           scrollBehavior: MyCustomScrollBehavior(), //fixing the scrolling for web
-          home:MechanicRating(issueDescribe: "كنت عند مين؟", toScreenNum: '1',rightButtonText: 'ابعت', goodOrBadList: [],),
+          title: 'Rate the car mechanics',
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('en'), // English
+            Locale('es'), // Spanish
+            Locale('ar'), // Arabic
+          ],
+          textDirection: TextDirection.ltr,
+          translations: TranslationService(),
+          locale: TranslationService.locale,
+          fallbackLocale: TranslationService.fallbackLocale,
+          home:WhatDoYouWant(),//
           routes: {
             '-1': (context)=> SignUpScreen(),
             '0': (context)=> LoginScreen(),
@@ -74,12 +87,14 @@ class MyApp extends StatelessWidget {
             '2': (context)=> CarSelection(),
             '3': (context)=> CriteriaScreen(),
             '4': (context)=> ShowLocation(),
-            '5': (context)=> UserInputScreen(issueDescribe: "What is the worst Problem", toScreenNum:'6', rightButtonText: 'Submit, Go Next', goodOrBadList: Provider.of<CarsProvider>(context, listen: false).problemsList, selectedIssue: Provider.of<CarsProvider>(context,listen: false).selectedIssueBad!,),
-            '6': (context)=> UserInputGood(issueDescribe: "What is the best thing in this car", toScreenNum:'7', rightButtonText: 'Submit, Go Next', goodOrBadList: Provider.of<CarsProvider>(context, listen: false).advantagesList, selectedIssue: Provider.of<CarsProvider>(context,listen: false).selectedIssueGood!),
+            '5': (context)=> UserInputScreen(issueDescribe: "What is the worst Problem", toScreenNum:'6', rightButtonText: 'Submit, Go Next', goodOrBadList: Provider.of<CarsProvider>(context, listen: false).problemsList, selectedIssue: Provider.of<CarsProvider>(context,listen: false).selectedIssueBad,),
+            '6': (context)=> UserInputGood(issueDescribe: "What is the best thing in this car", toScreenNum:'7', rightButtonText: 'Submit, Go Next', goodOrBadList: Provider.of<CarsProvider>(context, listen: false).advantagesList, selectedIssue: Provider.of<CarsProvider>(context,listen: false).selectedIssueGood),
             '7': (context)=> BestMechanicScreen(issueDescribe: "Who is the best mechanic for this car", toScreenNum:'1', rightButtonText: 'Finish', goodOrBadList: [],),
             'visionAndMission':(context)=> VandM(),
             'hope': (context)=>MassVotingScreen(),
             'mechResults':(context)=>ResultsMech(),
+            '8':(context)=> MechanicRating(issueDescribe: "mechTitle".tr, toScreenNum: '1',rightButtonText: 'send'.tr, goodOrBadList: [],),
+            'home':(context)=>WhatDoYouWant(),
           },
           theme: ThemeData(
             cupertinoOverrideTheme: CupertinoThemeData( // <---------- this

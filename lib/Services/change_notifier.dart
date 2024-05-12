@@ -71,11 +71,11 @@ List<FamilyCars> bestFamList=[FamilyCars(Man: '', Model: '', year: '', Rate: '')
 List<String> goodCars = [];
   ////Read excel sheet!!///
 List<TopMechanics> topMechs =[
-  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
-  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
-  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
-  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
-  TopMechanics(mech: '', ws: '', phone: '', rate: ''),
+  TopMechanics(mech: '', ws: '', phone: '', rate: '', specialty: '', lat: '', long:''),
+  TopMechanics(mech: '', ws: '', phone: '', rate: '', specialty: '', lat: '', long:''),
+  TopMechanics(mech: '', ws: '', phone: '', rate: '', specialty: '', lat: '', long:''),
+  TopMechanics(mech: '', ws: '', phone: '', rate: '', specialty: '', lat: '', long:''),
+  TopMechanics(mech: '', ws: '', phone: '', rate: '', specialty: '', lat: '', long:''),
 ];
 
 
